@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLinker
 {
-
-
+    [Serializable]
     class Game
     {
         private string savePath, dataPath;
