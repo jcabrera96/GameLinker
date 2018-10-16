@@ -15,10 +15,12 @@ namespace GameLinker.Models
         {
             library = new ArrayList();
         }
+
         public void AddGame(Game item)
         {
             library.Add(item);
         }
+
         public void RemoveGame(Game item)
         {
             library.Remove(item);

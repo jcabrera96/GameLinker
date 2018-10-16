@@ -32,5 +32,10 @@ namespace GameLinker
             get => dataPath;
             set => dataPath = value;
         }
+
+        public override string ToString()
+        {
+            return $"Data Path: {(dataPath == null ? "-None-" : dataPath)}{Environment.NewLine}Saves Path: {(savePath == null ? "-None-" : savePath)}";
+        }
     }
 }

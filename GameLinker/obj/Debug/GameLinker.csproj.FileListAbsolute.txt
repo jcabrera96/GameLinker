@@ -1,0 +1,10 @@
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\bin\Debug\GameLinker.exe.config
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\bin\Debug\GameLinker.exe
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\bin\Debug\GameLinker.pdb
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\obj\Debug\GameLinker.csprojAssemblyReference.cache
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\obj\Debug\GameLinker.NewGameForm.resources
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\obj\Debug\GameLinker.Properties.Resources.resources
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\obj\Debug\GameLinker.csproj.GenerateResource.cache
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\obj\Debug\GameLinker.csproj.CoreCompileInputs.cache
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\obj\Debug\GameLinker.exe
+C:\Users\jorge\OneDrive\Documentos\Proyectos\GameLinker\GameLinker\obj\Debug\GameLinker.pdb
