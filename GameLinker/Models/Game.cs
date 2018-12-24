@@ -9,16 +9,27 @@ namespace GameLinker
     [Serializable]
     class Game
     {
-        private string savePath, dataPath;
+        private string savePath, dataPath, gameName;
 
-        public Game(string savePath = null, string dataPath = null)
+        public Game(string savePath = "", string dataPath = "", string gameName = "")
         {
-            if (savePath == null && dataPath == null)
+            if (savePath == "" && dataPath == "")
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("savePath && dataPath", "No se pueden dejar vacias ambas rutas de archivos (saves y datos)");
+            }
+            else if (gameName == "")
+            {
+                throw new ArgumentNullException("gameName", "No se puede dejar en blanco el nombre del juego");
             }
             this.savePath = savePath;
             this.dataPath = dataPath;
+            this.gameName = gameName;
+        }
+
+        public string GameName
+        {
+            get => gameName;
+            set => gameName = value;
         }
 
         public string SavePath
@@ -35,7 +46,9 @@ namespace GameLinker
 
         public override string ToString()
         {
-            return $"Data Path: {(dataPath == null ? "-None-" : dataPath)}{Environment.NewLine}Saves Path: {(savePath == null ? "-None-" : savePath)}";
+            return $"Data Path: {(dataPath == "" ? "- None -" : dataPath)}" +
+                   $"{Environment.NewLine}Saves Path: {(savePath == "" ? "- None -" : savePath)}" +
+                   $"{Environment.NewLine}Game Name: {(gameName == "" ? "- None -" : gameName)}";
         }
     }
 }

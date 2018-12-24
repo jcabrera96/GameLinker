@@ -36,16 +36,26 @@ namespace GameLinker
 
         private void addGameButton_Click(object sender, EventArgs e)
         {
-            string savesPath = savesPathTextBox.Text, dataPath = dataPathTextBox.Text;
+            string savesPath = savesPathTextBox.Text, dataPath = dataPathTextBox.Text, gameName = gameNameTextbox.Text;
             try
             {
-                Game item = savesPath != "" && dataPath != "" ? new Game(savesPath, dataPath) : savesPath != "" ? new Game(savesPath) : dataPath != "" ? new Game(dataPath) : new Game();
+                Game item = new Game(savesPath, dataPath, gameName);
                 Console.WriteLine(item.ToString());
             }
-            catch(ArgumentNullException)
+            catch(ArgumentNullException err)
             {
-                Console.WriteLine("Can't add a game without paths");
+                MessageBox.Show(this,err.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -37,6 +37,8 @@
             this.dataPathSelectionButton = new System.Windows.Forms.Button();
             this.savesPathSelectionButton = new System.Windows.Forms.Button();
             this.addGameButton = new System.Windows.Forms.Button();
+            this.gameNameTextbox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // dataFolderSelectionDialog
@@ -103,7 +105,7 @@
             // 
             // addGameButton
             // 
-            this.addGameButton.Location = new System.Drawing.Point(224, 85);
+            this.addGameButton.Location = new System.Drawing.Point(224, 102);
             this.addGameButton.Name = "addGameButton";
             this.addGameButton.Size = new System.Drawing.Size(75, 23);
             this.addGameButton.TabIndex = 6;
@@ -111,11 +113,31 @@
             this.addGameButton.UseVisualStyleBackColor = true;
             this.addGameButton.Click += new System.EventHandler(this.addGameButton_Click);
             // 
+            // gameNameTextbox
+            // 
+            this.gameNameTextbox.Location = new System.Drawing.Point(104, 73);
+            this.gameNameTextbox.Name = "gameNameTextbox";
+            this.gameNameTextbox.Size = new System.Drawing.Size(195, 20);
+            this.gameNameTextbox.TabIndex = 8;
+            this.gameNameTextbox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 76);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Game name:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
             // NewGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(365, 120);
+            this.ClientSize = new System.Drawing.Size(365, 137);
+            this.Controls.Add(this.gameNameTextbox);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.addGameButton);
             this.Controls.Add(this.savesPathSelectionButton);
             this.Controls.Add(this.dataPathSelectionButton);
@@ -145,6 +167,8 @@
         private System.Windows.Forms.Button dataPathSelectionButton;
         private System.Windows.Forms.Button savesPathSelectionButton;
         private System.Windows.Forms.Button addGameButton;
+        private System.Windows.Forms.TextBox gameNameTextbox;
+        private System.Windows.Forms.Label label1;
     }
 }
 
