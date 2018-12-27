@@ -46,7 +46,7 @@ namespace GameLinker
             catch(ArgumentNullException err)
             {
                 MessageBox.Show(this,err.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                await OnedriveHelper.UploadItem("E:/Usuarios/Jorge/Descargas/Adrian_Reina_gonzalez_Wild Camping.rar", "/Comprimido.rar");
+                await OnedriveHelper.UploadFolder("E:/Usuarios/Jorge/Descargas/phpBB3", "/Carnet Guagua");
             }
         }
     }

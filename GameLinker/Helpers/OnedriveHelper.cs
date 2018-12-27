@@ -64,7 +64,7 @@ namespace GameLinker.Helpers
             return folder;
         }
 
-        public async static Task<Item> UploadItem(string itemPath, string destinationPath)
+        public async static Task<Item> UploadItem(string itemPath, string destinationPath, bool showProgress = true)
         {
             if (client == null) await InitClient();
             var fileStream = FileToStreamHelper.GetFileStream(itemPath);
@@ -77,7 +77,7 @@ namespace GameLinker.Helpers
             var trackedExceptions = new List<Exception>();
             Item itemResult = null;
             UploadProgressForm uploadForm = new UploadProgressForm();
-            uploadForm.Show();
+            if (showProgress)uploadForm.Show();
             //upload the chunks
             for (var chunk = 0; chunk < chunkRequests.Count(); chunk++)
             {
@@ -99,6 +99,50 @@ namespace GameLinker.Helpers
                 // ...
             }
             return itemResult;
+        }
+
+        public async static Task<Item> UploadFolder(string folderPath, string destinationPath)
+        {
+            Item folder = await CreateFolder(destinationPath);
+            var folderName = Path.GetFileName(folderPath);
+            List<string> files = Directory.GetFiles(folderPath).ToList();
+            UploadProgressForm uploadForm = new UploadProgressForm();
+            uploadForm.uploadLabel.Text = "Creating folders...";
+            uploadForm.uploadValueLabel.Text = "";
+            uploadForm.uploadProgressBar.Value = 100;
+            uploadForm.Show();
+            await CheckForFolders(folderPath, destinationPath, files);
+            uploadForm.uploadLabel.Text = "Upload progress:";
+            uploadForm.uploadValueLabel.Text = "0%";
+            uploadForm.uploadProgressBar.Value = 0;
+            // Copy the files and overwrite destination files if they already exist.
+            foreach (string file in files)
+            {
+                var fileName = Path.GetFileName(file);
+                Item result = await UploadItem(file, destinationPath + "/" + file.Substring(file.IndexOf(folderName)), false);
+                if (result != null)
+                {
+                    uploadForm.uploadProgressBar.Value = (int)(((double)(files.ToList().IndexOf(file) + 1) / files.Count) * 100);
+                    uploadForm.uploadValueLabel.Text = (int)(((double)(files.ToList().IndexOf(file) + 1) / files.Count) * 100) + "%";
+                }
+            }
+            uploadForm.acceptButton.Enabled = true;
+            return folder;
+        }
+
+        private async static Task CheckForFolders(string rootPath, string destinationPath, List<string> files)
+        {
+            foreach (var folder in Directory.GetDirectories(rootPath))
+            {
+                var folderName = folder.Substring(folder.Replace('\\', '/').LastIndexOf('/'));
+                await CreateFolder(destinationPath + folderName);
+                foreach (var file in Directory.GetFiles(folder))
+                {
+                    files.Add(file);
+                }
+                await CheckForFolders(folder , destinationPath + folderName, files);
+            }    
+
         }
 
     }

@@ -94,7 +94,7 @@
 
         public System.Windows.Forms.ProgressBar uploadProgressBar;
         public System.Windows.Forms.Button acceptButton;
-        private System.Windows.Forms.Label uploadLabel;
         public System.Windows.Forms.Label uploadValueLabel;
+        public System.Windows.Forms.Label uploadLabel;
     }
 }
