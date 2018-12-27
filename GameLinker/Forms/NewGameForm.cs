@@ -1,9 +1,11 @@
-﻿using System;
+﻿using GameLinker.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,28 +36,18 @@ namespace GameLinker
             savesPathTextBox.Text = savesFolderSelectionDialog.SelectedPath;
         }
 
-        private void addGameButton_Click(object sender, EventArgs e)
+        private async void addGameButton_Click(object sender, EventArgs e)
         {
             string savesPath = savesPathTextBox.Text, dataPath = dataPathTextBox.Text, gameName = gameNameTextbox.Text;
             try
             {
                 Game item = new Game(savesPath, dataPath, gameName);
-                Console.WriteLine(item.ToString());
             }
             catch(ArgumentNullException err)
             {
                 MessageBox.Show(this,err.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                await OnedriveHelper.UploadItem("E:/Usuarios/Jorge/Descargas/Adrian_Reina_gonzalez_Wild Camping.rar", "/Comprimido.rar");
             }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

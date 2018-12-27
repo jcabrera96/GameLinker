@@ -39,6 +39,7 @@
             this.addGameButton = new System.Windows.Forms.Button();
             this.gameNameTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.OnedriveFolderOpen = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // dataFolderSelectionDialog
@@ -119,7 +120,6 @@
             this.gameNameTextbox.Name = "gameNameTextbox";
             this.gameNameTextbox.Size = new System.Drawing.Size(195, 20);
             this.gameNameTextbox.TabIndex = 8;
-            this.gameNameTextbox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 
@@ -129,7 +129,7 @@
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 7;
             this.label1.Text = "Game name:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+
             // 
             // NewGameForm
             // 
@@ -169,6 +169,7 @@
         private System.Windows.Forms.Button addGameButton;
         private System.Windows.Forms.TextBox gameNameTextbox;
         private System.Windows.Forms.Label label1;
+        private System.ComponentModel.BackgroundWorker OnedriveFolderOpen;
     }
 }
 

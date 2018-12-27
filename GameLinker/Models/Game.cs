@@ -15,11 +15,11 @@ namespace GameLinker
         {
             if (savePath == "" && dataPath == "")
             {
-                throw new ArgumentNullException("savePath && dataPath", "No se pueden dejar vacias ambas rutas de archivos (saves y datos)");
+                throw new ArgumentNullException("No se pueden dejar vacias ambas rutas de archivos (saves y datos)", new ArgumentNullException());
             }
             else if (gameName == "")
             {
-                throw new ArgumentNullException("gameName", "No se puede dejar en blanco el nombre del juego");
+                throw new ArgumentNullException("No se puede dejar en blanco el nombre del juego", new ArgumentNullException());
             }
             this.savePath = savePath;
             this.dataPath = dataPath;
