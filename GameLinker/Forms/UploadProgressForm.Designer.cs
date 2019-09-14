@@ -39,7 +39,7 @@
             this.uploadProgressBar.Location = new System.Drawing.Point(12, 149);
             this.uploadProgressBar.Name = "uploadProgressBar";
             this.uploadProgressBar.Size = new System.Drawing.Size(713, 23);
-            this.uploadProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.uploadProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.uploadProgressBar.TabIndex = 0;
             // 
             // acceptButton

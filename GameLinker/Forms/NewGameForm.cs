@@ -14,9 +14,12 @@ namespace GameLinker
 {
     public partial class NewGameForm : Form
     {
+        OnedriveHelper onedriveManager;
+
         public NewGameForm()
         {
             InitializeComponent();
+            onedriveManager = OnedriveHelper.Instance;
         }
 
         private void NewGameForm_Load(object sender, EventArgs e)
@@ -46,7 +49,6 @@ namespace GameLinker
             catch(ArgumentNullException err)
             {
                 MessageBox.Show(this,err.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                await OnedriveHelper.UploadFolder("E:/Usuarios/Jorge/Descargas/phpBB3", "/Carnet Guagua");
             }
         }
     }
