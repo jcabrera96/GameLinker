@@ -1,4 +1,5 @@
-﻿using GameLinker.Helpers;
+﻿using GameLinker.Forms;
+using GameLinker.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,13 +47,15 @@ namespace GameLinker
             try
             {
                 Game item = new Game(savesPath, dataPath, gameName);
+                UploadProgressForm uploadForm = new UploadProgressForm();
+                await onedriveManager.UploadFolder(dataPath, "GameLinker/" + gameName + "/", uploadForm);
+                uploadForm.uploadLabel.Text = "Game files uploaded successfully.";
+                uploadForm.uploadValueLabel.Text = "";
+                uploadForm.acceptButton.Enabled = true;
             }
             catch(ArgumentNullException err)
             {
-                MessageBox.Show(this,err.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                FileStream compressedStream = await CompressionHelper.Compress("E:/Usuarios/Jorge/Descargas/8237_FF03_PG463_Win10_TH_RS1_RS2_Win8.1_Win8_Win7_WHQL.tar.gz", "E:/Usuarios/Jorge/Descargas/8237_FF03_PG463_Win10_TH_RS1_RS2_Win8.1_Win8_Win7_WHQL");
-                CompressionHelper.Decompress("E:/Usuarios/Jorge/Descargas/8237_FF03_PG463_Win10_TH_RS1_RS2_Win8.1_Win8_Win7_WHQL.tar.gz", "E:/Test");
+                MessageBox.Show(this,err.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);}
             }
-        }
     }
 }
