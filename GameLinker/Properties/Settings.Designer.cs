@@ -23,12 +23,15 @@ namespace GameLinker.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public int MaxUploadThreads {
             get {
                 return ((int)(this["MaxUploadThreads"]));
+            }
+            set {
+                this["MaxUploadThreads"] = value;
             }
         }
     }

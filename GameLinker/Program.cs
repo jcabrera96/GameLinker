@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameLinker.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,11 @@ namespace GameLinker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            if (Settings.Default.MaxUploadThreads == -1)
+            {
+                Settings.Default.MaxUploadThreads = Environment.ProcessorCount - 1;
+                Settings.Default.Save();
+            }
             Application.Run(new NewGameForm());
         }
     }

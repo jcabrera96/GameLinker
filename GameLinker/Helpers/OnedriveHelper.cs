@@ -167,10 +167,49 @@ namespace GameLinker.Helpers
             uploadForm.uploadProgressBar.Value = 100;
             uploadForm.uploadProgressBar.Style = ProgressBarStyle.Marquee;
             uploadForm.Show();
-            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/Temp/"))
+            Dictionary<string,List<string>> compressedFilesData = await CompressFiles(uploadForm, folderPath, folderName, isGameData);
+            System.GC.Collect();
+            uploadForm.uploadLabel.Text = isGameData ? "Uploading data files" : "Uploading save files";
+            uploadForm.uploadValueLabel.Text = "0%";
+            uploadForm.uploadProgressBar.Value = 0;
+            uploadForm.uploadProgressBar.Style = ProgressBarStyle.Continuous;
+            await PerformBulkUpload(uploadForm, destinationPath, compressedFilesData.ElementAt(0).Value, isGameData);
+            CleanTempFiles(compressedFilesData.ElementAt(0).Key, compressedFilesData.ElementAt(0).Value);
+            return folder;
+        }
+
+        private async Task PerformBulkUpload(UploadProgressForm uploadForm, string destinationPath ,List<string> compressedFiles, bool isGameData)
+        {
+            System.Timers.Timer dotsTimer = new System.Timers.Timer(1000);
+            dotsTimer = new System.Timers.Timer(1000);
+            dotsTimer.AutoReset = true;
+            dotsTimer.Elapsed += (s, e) =>
             {
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/Temp/");
+                int dotsCount = uploadForm.uploadLabel.Text.Count(c => c == '.');
+                uploadForm.Invoke((MethodInvoker)delegate {
+                    uploadForm.uploadLabel.Text = (isGameData ? "Uploading data files" : "Uploading save files") + new string('.', (dotsCount + 1) % 4);
+                });
+            };
+            dotsTimer.Enabled = true;
+            int threadCount = 0;
+            foreach (var file in compressedFiles)
+            {
+                Task.Run(async () =>
+                {
+                    await UploadItem(file, destinationPath + (isGameData ? "data/" : "saves/") + Path.GetFileName(file), uploadForm);
+                    threadCount--;
+                });
+                threadCount++;
+                while (threadCount >= Settings.Default.MaxUploadThreads) await Task.Delay(100);
             }
+            while (uploadedCompressedFiles < compressedFilesCount) await Task.Delay(100);
+            dotsTimer.Stop();
+        }
+
+        private async Task<Dictionary<string, List<string>>> CompressFiles(UploadProgressForm uploadForm, string folderPath, string folderName, bool isGameData)
+        {
+            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/Temp/"))
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/Temp/");
             string compressedFilePath = AppDomain.CurrentDomain.BaseDirectory + "/Temp/" + folderName + (isGameData ? "_Data.tar.gz" : "_Saves.tar.gz");
             System.Timers.Timer dotsTimer = new System.Timers.Timer(1000);
             dotsTimer.AutoReset = true;
@@ -189,39 +228,15 @@ namespace GameLinker.Helpers
             compressedFilesCount = compressedFiles.Count;
             uploadedCompressedFiles = 0;
             dotsTimer.Stop();
-            uploadForm.uploadLabel.Text = isGameData ? "Uploading data files" : "Uploading save files";
-            uploadForm.uploadValueLabel.Text = "0%";
-            uploadForm.uploadProgressBar.Value = 0;
-            uploadForm.uploadProgressBar.Style = ProgressBarStyle.Continuous;
-            dotsTimer = new System.Timers.Timer(1000);
-            dotsTimer.AutoReset = true;
-            dotsTimer.Elapsed += (s, e) =>
-            {
-                int dotsCount = uploadForm.uploadLabel.Text.Count(c => c == '.');
-                uploadForm.Invoke((MethodInvoker)delegate {
-                    uploadForm.uploadLabel.Text = (isGameData ? "Uploading data files" : "Uploading save files") + new string('.', (dotsCount + 1) % 4);
-                });
-            };
-            dotsTimer.Enabled = true;
-            await Task.Run(async () =>
-            {
-                int threadCount = 0;
-                foreach (var file in compressedFiles)
-                {
-                    Task.Run(async () =>
-                    {
-                        await UploadItem(file, destinationPath + "data/" + Path.GetFileName(file), uploadForm);
-                        threadCount--;
-                    });
-                    threadCount++;
-                    while (threadCount > Settings.Default.MaxUploadThreads) await Task.Delay(100);
-                }
-            });
-            while (uploadedCompressedFiles < compressedFilesCount) await Task.Delay(100);
-            dotsTimer.Stop();
+            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+            result.Add(compressedFilePath, compressedFiles);
+            return result;
+        }
+
+        private void CleanTempFiles(string compressedFilePath, List<string> compressedFiles)
+        {
             System.IO.File.Delete(compressedFilePath);
             foreach (var file in compressedFiles) System.IO.File.Delete(file);
-            return folder;
         }
 
         private async Task CheckForFolders(string rootPath, string destinationPath, List<string> files)
