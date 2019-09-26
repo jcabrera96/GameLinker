@@ -101,6 +101,22 @@ namespace GameLinker.Helpers
             }
         }
 
+        public async Task<byte[]> ReadItem(string itemPath)
+        {
+            try
+            {
+                if (authenticator == null) await InitClient();
+                var dataStream = await client.Drive.Root.ItemWithPath(itemPath).Content.Request().GetAsync();
+                byte[] data = new byte[(int)dataStream.Length];
+                dataStream.Read(data, 0, (int)dataStream.Length);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         private async Task<Item> UploadItem(string itemPath, string destinationPath, UploadProgressForm uploadForm)
         {
             if (authenticator == null) await InitClient();
@@ -158,7 +174,7 @@ namespace GameLinker.Helpers
             return itemResult;
         }
 
-        public async Task<Item> UploadFolder(string folderPath, string destinationPath, UploadProgressForm uploadForm, bool isGameData = true)
+        public async Task<int> UploadFolder(string folderPath, string destinationPath, UploadProgressForm uploadForm, string gameName,bool isGameData = true)
         {
             Item folder = await CreateFolder(destinationPath);
             var folderName = Path.GetFileName(folderPath);
@@ -167,15 +183,16 @@ namespace GameLinker.Helpers
             uploadForm.uploadProgressBar.Value = 100;
             uploadForm.uploadProgressBar.Style = ProgressBarStyle.Marquee;
             uploadForm.Show();
-            Dictionary<string,List<string>> compressedFilesData = await CompressFiles(uploadForm, folderPath, folderName, isGameData);
+            Dictionary<string,List<string>> compressedFilesData = await CompressFiles(uploadForm, folderPath, gameName, isGameData);
             System.GC.Collect();
             uploadForm.uploadLabel.Text = isGameData ? "Uploading data files" : "Uploading save files";
             uploadForm.uploadValueLabel.Text = "0%";
             uploadForm.uploadProgressBar.Value = 0;
             uploadForm.uploadProgressBar.Style = ProgressBarStyle.Continuous;
             await PerformBulkUpload(uploadForm, destinationPath, compressedFilesData.ElementAt(0).Value, isGameData);
+            int fileSize = (int)new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "/Temp/" + gameName + (isGameData ? "_Data.tar.gz" : "_Saves.tar.gz")).Length;
             CleanTempFiles(compressedFilesData.ElementAt(0).Key, compressedFilesData.ElementAt(0).Value);
-            return folder;
+            return fileSize;
         }
 
         private async Task PerformBulkUpload(UploadProgressForm uploadForm, string destinationPath ,List<string> compressedFiles, bool isGameData)
@@ -206,11 +223,11 @@ namespace GameLinker.Helpers
             dotsTimer.Stop();
         }
 
-        private async Task<Dictionary<string, List<string>>> CompressFiles(UploadProgressForm uploadForm, string folderPath, string folderName, bool isGameData)
+        private async Task<Dictionary<string, List<string>>> CompressFiles(UploadProgressForm uploadForm, string folderPath, string gameName, bool isGameData)
         {
             if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/Temp/"))
                 Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/Temp/");
-            string compressedFilePath = AppDomain.CurrentDomain.BaseDirectory + "/Temp/" + folderName + (isGameData ? "_Data.tar.gz" : "_Saves.tar.gz");
+            string compressedFilePath = AppDomain.CurrentDomain.BaseDirectory + "/Temp/" + gameName + (isGameData ? "_Data.tar.gz" : "_Saves.tar.gz");
             System.Timers.Timer dotsTimer = new System.Timers.Timer(1000);
             dotsTimer.AutoReset = true;
             dotsTimer.Elapsed += (s, e) =>

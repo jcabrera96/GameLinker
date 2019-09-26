@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace GameLinker
 {
     [Serializable]
-    class Game
+    public class Game
     {
         private string savePath, dataPath, gameName;
+        private int dataSize, saveSize, dataParts, savesParts;
 
         public Game(string savePath = "", string dataPath = "", string gameName = "")
         {
@@ -44,11 +45,39 @@ namespace GameLinker
             set => dataPath = value;
         }
 
+        public int DataSize
+        {
+            get => dataSize;
+            set => dataSize = value;
+        }
+
+        public int SaveSize
+        {
+            get => saveSize;
+            set => saveSize = value;
+        }
+
+        public int DataParts
+        {
+            get => dataParts;
+            set => dataParts = value;
+        }
+
+        public int SavesParts
+        {
+            get => savesParts;
+            set => savesParts = value;
+        }
+
         public override string ToString()
         {
             return $"Data Path: {(dataPath == "" ? "- None -" : dataPath)}" +
                    $"{Environment.NewLine}Saves Path: {(savePath == "" ? "- None -" : savePath)}" +
-                   $"{Environment.NewLine}Game Name: {(gameName == "" ? "- None -" : gameName)}";
+                   $"{Environment.NewLine}Game Name: {gameName}" +
+                   $"{Environment.NewLine}Data Size: {dataSize}" +
+                   $"{Environment.NewLine}Saves Size: {saveSize}" +
+                   $"{Environment.NewLine}Data Parts: {dataParts}" +
+                   $"{Environment.NewLine}Saves Parts: {savesParts}";
         }
     }
 }

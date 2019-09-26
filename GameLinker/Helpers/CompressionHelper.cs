@@ -1,4 +1,6 @@
-﻿using ICSharpCode.SharpZipLib.GZip;
+﻿using GameLinker.Properties;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using System;
 using System.Collections.Generic;
@@ -29,7 +31,7 @@ namespace GameLinker.Helpers
                     // Read may return anything from 0 to numBytesToRead.
                     int n = stream.Read(data, 0, (int)myMaxChunkSize < numBytesToRead ? (int)myMaxChunkSize : numBytesToRead);
                     files.Add(tarFilePath + ".part_" + fileIndex);
-                    await CompressFilePart(tarFilePath + ".part_" + fileIndex, new MemoryStream(data));
+                    await SaveData(data, tarFilePath + ".part_" + fileIndex);
                     // Break when the end of the file is reached.
                     if (n == 0)
                         break;
@@ -67,7 +69,7 @@ namespace GameLinker.Helpers
             {
                 Stream outStream = File.Create(tarFilePath);
                 Stream gzoStream = new GZipOutputStream(outStream);
-                TarOutputStream tarOutputStream = new TarOutputStream(outStream);
+                TarOutputStream tarOutputStream = new TarOutputStream(gzoStream);
 
                 Guid g = Guid.NewGuid();
                 string randomName = Convert.ToBase64String(g.ToByteArray());
@@ -84,6 +86,37 @@ namespace GameLinker.Helpers
             {
 
             }
+        }
+
+        public async static Task JoinAndDecompress(Game gameData)
+        {
+            byte[] dataBuffer = await ReadAllParts(gameData, true); ;
+            byte[] savesDataBuffer = await ReadAllParts(gameData, false);
+            bool dataFileCreated = await SaveData(dataBuffer, AppDomain.CurrentDomain.BaseDirectory + "/Temp/" + gameData.GameName + "_Data.tar.gz");
+            bool savesFileCreated = await SaveData(savesDataBuffer, AppDomain.CurrentDomain.BaseDirectory + "/Temp/" + gameData.GameName + "_Saves.tar.gz");
+        }
+
+        static async Task<byte[]> ReadAllParts(Game gameData, bool isGameData)
+        {
+            OnedriveHelper onedriveHelper = OnedriveHelper.Instance;
+            int bytesRead = 0;
+            byte[] buffer = new byte[isGameData ? gameData.DataSize : gameData.SaveSize];
+            int partsNumber = isGameData ? gameData.DataParts : gameData.SavesParts;
+            try
+            {
+                for (int i = 0; i < partsNumber; i++)
+                {
+                    byte[] data = await onedriveHelper.ReadItem("GameLinker/" + gameData.GameName + (isGameData ? "/data/" : "/saves/") + gameData.GameName + (isGameData ? "_Data" : "_Saves") + ".tar.gz.part_" + i);
+                    GC.Collect();
+                    data.CopyTo(buffer, bytesRead);
+                    bytesRead += data.Length;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return buffer;
         }
 
         static void Decompress(string gzArchiveName, string destFolder)
@@ -121,6 +154,7 @@ namespace GameLinker.Helpers
 
         public static Task<bool> SaveData(byte[] data, string destination)
         {
+            if (data.Length == 0) return Task.FromResult(false);
             try
             {
                 File.WriteAllBytes(destination, data);

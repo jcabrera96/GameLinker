@@ -8,7 +8,7 @@ using System.Collections;
 namespace GameLinker.Models
 {
     [Serializable]
-    class GamesLibrary
+    public class GamesLibrary
     {
         private ArrayList library;
         public GamesLibrary()

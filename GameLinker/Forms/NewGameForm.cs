@@ -47,11 +47,13 @@ namespace GameLinker
             try
             {
                 Game item = new Game(savesPath, dataPath, gameName);
-                UploadProgressForm uploadForm = new UploadProgressForm();
-                await onedriveManager.UploadFolder(dataPath, "GameLinker/" + gameName + "/", uploadForm);
-                uploadForm.uploadLabel.Text = "Game files uploaded successfully.";
-                uploadForm.uploadValueLabel.Text = "";
-                uploadForm.acceptButton.Enabled = true;
+                await CompressionHelper.JoinAndDecompress(item);
+                //UploadProgressForm uploadForm = new UploadProgressForm();
+                //if (dataPath != "") item.DataSize = await onedriveManager.UploadFolder(dataPath, "GameLinker/" + gameName + "/", uploadForm, gameName);
+                //if (savesPath != "") item.SaveSize = await onedriveManager.UploadFolder(savesPath, "GameLinker/" + gameName + "/", uploadForm, gameName, false);
+                //uploadForm.uploadLabel.Text = "Game files uploaded successfully.";
+                //uploadForm.uploadValueLabel.Text = "";
+                //uploadForm.acceptButton.Enabled = true;
             }
             catch(ArgumentNullException err)
             {
