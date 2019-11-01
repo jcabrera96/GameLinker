@@ -9,22 +9,31 @@ using System.Threading.Tasks;
 
 namespace GameLinker.Helpers
 {
-    class Serializer
+    public class Serializer
     {
-        IFormatter formatter = new BinaryFormatter();
-        Stream stream;
+        static IFormatter formatter = new BinaryFormatter();
+        static Stream stream;
 
-        protected void Serialize(object targetItem, string destination)
+        protected static void Serialize(object targetItem, string destination)
         {
             stream = new FileStream(destination, FileMode.Create, FileAccess.Write);
             formatter.Serialize(stream, targetItem);
             stream.Close();
         }
 
-        protected object Deserialize(string sourcePath)
+        protected static object Deserialize(string sourcePath)
         {
             stream = new FileStream(sourcePath, FileMode.Open, FileAccess.Read);
             object deserializedItem = formatter.Deserialize(stream);
+            stream.Close();
+            return deserializedItem;
+        }
+
+        protected static object DeserializeBytes(byte[] data)
+        {
+            stream = new MemoryStream(data);
+            object deserializedItem = formatter.Deserialize(stream);
+            stream.Close();
             return deserializedItem;
         }
     }

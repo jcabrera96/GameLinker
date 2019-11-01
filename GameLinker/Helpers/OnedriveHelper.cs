@@ -25,7 +25,7 @@ namespace GameLinker.Helpers
         MsaAuthenticationProvider authenticator;
         OneDriveClient client;
 
-        int compressedFilesCount, uploadedCompressedFiles;
+        public int compressedFilesCount, uploadedCompressedFiles;
 
         private static OnedriveHelper _instance;
 
@@ -117,7 +117,7 @@ namespace GameLinker.Helpers
             }
         }
 
-        private async Task<Item> UploadItem(string itemPath, string destinationPath, UploadProgressForm uploadForm)
+        public async Task<Item> UploadItem(string itemPath, string destinationPath, UploadProgressForm uploadForm)
         {
             if (authenticator == null) await InitClient();
             Item itemResult = null;

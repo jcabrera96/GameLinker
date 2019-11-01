@@ -47,13 +47,21 @@ namespace GameLinker
             try
             {
                 Game item = new Game(savesPath, dataPath, gameName);
-                await CompressionHelper.JoinAndDecompress(item);
-                //UploadProgressForm uploadForm = new UploadProgressForm();
-                //if (dataPath != "") item.DataSize = await onedriveManager.UploadFolder(dataPath, "GameLinker/" + gameName + "/", uploadForm, gameName);
-                //if (savesPath != "") item.SaveSize = await onedriveManager.UploadFolder(savesPath, "GameLinker/" + gameName + "/", uploadForm, gameName, false);
-                //uploadForm.uploadLabel.Text = "Game files uploaded successfully.";
-                //uploadForm.uploadValueLabel.Text = "";
-                //uploadForm.acceptButton.Enabled = true;
+                UploadProgressForm uploadForm = new UploadProgressForm();
+                if (dataPath != "") item.DataSize = await onedriveManager.UploadFolder(dataPath, "GameLinker/" + gameName + "/", uploadForm, gameName);
+                if (savesPath != "") item.SaveSize = await onedriveManager.UploadFolder(savesPath, "GameLinker/" + gameName + "/", uploadForm, gameName, false);
+                uploadForm.uploadLabel.Text = "Updating game library";
+                uploadForm.uploadValueLabel.Text = "";
+                LibraryHelper.Library.AddGame(item);
+                LibraryHelper.SaveLibrary();
+                uploadForm.uploadLabel.Text = "Uploading updated game library";
+                uploadForm.uploadValueLabel.Text = "0%";
+                onedriveManager.compressedFilesCount = 1;
+                onedriveManager.uploadedCompressedFiles = 0;
+                await onedriveManager.UploadItem(AppDomain.CurrentDomain.BaseDirectory + "Library.bin", "GameLinker/" + "Library.bin", uploadForm);
+                uploadForm.uploadLabel.Text = "Game files uploaded successfully.";
+                uploadForm.uploadValueLabel.Text = "";
+                uploadForm.acceptButton.Enabled = true;
             }
             catch(ArgumentNullException err)
             {

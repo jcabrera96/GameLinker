@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameLinker.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,11 @@ namespace GameLinker
             else if (gameName == "")
             {
                 throw new ArgumentNullException("No se puede dejar en blanco el nombre del juego", new ArgumentNullException());
+            }
+            else
+            {
+                string existanceError = LibraryHelper.Library.CheckGameDataExistance(savePath, dataPath, gameName);
+                if(existanceError != "") throw new ArgumentNullException(existanceError, new ArgumentNullException());
             }
             this.savePath = savePath;
             this.dataPath = dataPath;

@@ -1,4 +1,5 @@
-﻿using GameLinker.Properties;
+﻿using GameLinker.Helpers;
+using GameLinker.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace GameLinker
                 Settings.Default.MaxUploadThreads = Environment.ProcessorCount - 1;
                 Settings.Default.Save();
             }
+            LibraryHelper.LoadLibrary();
             Application.Run(new NewGameForm());
         }
     }
