@@ -26,6 +26,11 @@ namespace GameLinker.Models
             library.Remove(item);
         }
 
+        public List<Game> GetGames()
+        {
+            return library;
+        }
+
         public string CheckGameDataExistance(string savePath, string dataPath, string name)
         {
             if (library.Where(game => game.DataPath == dataPath && game.DataPath != "").Count() > 0) return "La ruta de datos seleccionada ya está en uso para otro juego.";

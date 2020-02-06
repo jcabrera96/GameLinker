@@ -66,8 +66,17 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Transitions, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\dot-net-transitions.1.2.1.0\lib\net40-full\Transitions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Library.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Library.Designer.cs">
+      <DependentUpon>Library.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\NewGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +89,7 @@
     <Compile Include="Forms\UploadProgressForm.Designer.cs">
       <DependentUpon>UploadProgressForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Helpers\AuthentificationHelper.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Helpers\FileToStreamHelper.cs" />
@@ -90,6 +100,9 @@
     <Compile Include="Models\GamesLibrary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Library.resx">
+      <DependentUpon>Library.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewGameForm.resx">
       <DependentUpon>NewGameForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,6 +117,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Configs\AppKey.json" />
     <None Include="packages.config" />
@@ -119,6 +133,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SidebarActive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\sidebar_active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\sidebar_inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_game.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\add_game.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\generic_game.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

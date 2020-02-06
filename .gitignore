@@ -344,3 +344,7 @@ MigrationBackup/
 .ionide/
 
 /GameLinker/Configs/AppKey.json
+
+/Screenshots
+
+*.psd

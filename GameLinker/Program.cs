@@ -1,4 +1,5 @@
-﻿using GameLinker.Helpers;
+﻿using GameLinker.Forms;
+using GameLinker.Helpers;
 using GameLinker.Properties;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace GameLinker
                 Settings.Default.Save();
             }
             LibraryHelper.LoadLibrary();
-            Application.Run(new NewGameForm());
+            Application.Run(new Library());
         }
     }
 }
