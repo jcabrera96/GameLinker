@@ -41,7 +41,7 @@
             this.sidebar.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.sidebar.Location = new System.Drawing.Point(-300, 0);
             this.sidebar.Name = "sidebar";
-            this.sidebar.Size = new System.Drawing.Size(300, 451);
+            this.sidebar.Size = new System.Drawing.Size(300, 551);
             this.sidebar.TabIndex = 0;
             // 
             // libraryPanel
@@ -53,7 +53,7 @@
             this.libraryPanel.Location = new System.Drawing.Point(12, 60);
             this.libraryPanel.MultiSelect = false;
             this.libraryPanel.Name = "libraryPanel";
-            this.libraryPanel.Size = new System.Drawing.Size(650, 379);
+            this.libraryPanel.Size = new System.Drawing.Size(750, 479);
             this.libraryPanel.TabIndex = 1;
             this.libraryPanel.UseCompatibleStateImageBehavior = false;
             // 
@@ -72,11 +72,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(674, 451);
+            this.ClientSize = new System.Drawing.Size(774, 551);
             this.Controls.Add(this.menuButton);
             this.Controls.Add(this.sidebar);
             this.Controls.Add(this.libraryPanel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Library";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

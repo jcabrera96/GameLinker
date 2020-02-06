@@ -158,6 +158,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NewGameForm";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add new game";
             this.Load += new System.EventHandler(this.NewGameForm_Load);
             this.ResumeLayout(false);

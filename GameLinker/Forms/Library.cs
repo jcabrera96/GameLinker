@@ -42,6 +42,7 @@ namespace GameLinker.Forms
             libraryPanel.Columns.Add("Games", -2, HorizontalAlignment.Center);
             libraryPanel.Items.AddRange(gamesList.ToArray());
             libraryPanel.LargeImageList = gamesIconsList;
+            libraryPanel.DoubleClick += ListItemClicked;
         }
 
         private void ToogleSidebar()
@@ -69,6 +70,17 @@ namespace GameLinker.Forms
                 mainAnimation.add(menuButton, "Left", menuButton.Left + sidebar.Width);
                 Transition.runChain(clickAnimation, mainAnimation);
                 menuButton.Image = Resources.sidebar_active;
+            }
+        }
+
+        private void ListItemClicked(object sender, EventArgs e)
+        {
+            switch ((int)libraryPanel.SelectedItems[0].Tag)
+            {
+                case -1:
+                    NewGameForm addGameForm = new NewGameForm();
+                    addGameForm.ShowDialog(this);
+                    break;
             }
         }
 
