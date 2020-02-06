@@ -20,12 +20,13 @@ namespace GameLinker.Helpers
             Serialize(Library, AppDomain.CurrentDomain.BaseDirectory + "Library.bin");
         }
 
-        public static async void LoadLibrary()
+        public static async Task LoadLibrary()
         {
             if (Library == null)
             {
                 UploadProgressForm uploadForm = new UploadProgressForm();
                 uploadForm.uploadLabel.Text = "Downloading library. Please wait.";
+                uploadForm.Text = "Download progress";
                 uploadForm.uploadValueLabel.Text = "";
                 uploadForm.uploadProgressBar.Value = 100;
                 try

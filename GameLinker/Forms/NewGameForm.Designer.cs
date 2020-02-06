@@ -153,7 +153,7 @@
             this.Controls.Add(this.dataPathTextBox);
             this.Controls.Add(this.savesPathLabel);
             this.Controls.Add(this.dataPathLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;

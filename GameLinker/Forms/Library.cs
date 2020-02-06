@@ -20,10 +20,23 @@ namespace GameLinker.Forms
         public Library()
         {
             InitializeComponent();
+            InitializeLibrary();
+        }
+
+        private async void InitializeLibrary()
+        {
+            await LibraryHelper.LoadLibrary();
+            GenerateGamesList();
+            libraryPanel.DoubleClick += ListItemClicked;
+        }
+
+        private void GenerateGamesList()
+        {
             ImageList gamesIconsList = new ImageList();
             gamesIconsList.ImageSize = new Size(128, 128);
             List<ListViewItem> gamesList = new List<ListViewItem>();
-            gamesList.Add(new ListViewItem {
+            gamesList.Add(new ListViewItem
+            {
                 Text = "Add game",
                 Tag = -1,
                 ImageIndex = 0
@@ -31,7 +44,8 @@ namespace GameLinker.Forms
             gamesIconsList.Images.Add(Resources.add_game);
             foreach (var game in LibraryHelper.Library.GetGames())
             {
-                ListViewItem gamesListItem = new ListViewItem {
+                ListViewItem gamesListItem = new ListViewItem
+                {
                     Text = game.GameName,
                     Tag = LibraryHelper.Library.GetGames().IndexOf(game),
                     ImageIndex = gamesIconsList.Images.Count
@@ -42,7 +56,6 @@ namespace GameLinker.Forms
             libraryPanel.Columns.Add("Games", -2, HorizontalAlignment.Center);
             libraryPanel.Items.AddRange(gamesList.ToArray());
             libraryPanel.LargeImageList = gamesIconsList;
-            libraryPanel.DoubleClick += ListItemClicked;
         }
 
         private void ToogleSidebar()

@@ -24,7 +24,6 @@ namespace GameLinker
                 Settings.Default.MaxUploadThreads = Environment.ProcessorCount - 1;
                 Settings.Default.Save();
             }
-            LibraryHelper.LoadLibrary();
             Application.Run(new Library());
         }
     }
