@@ -36,17 +36,19 @@
             // 
             // sidebar
             // 
-            this.sidebar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sidebar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.sidebar.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.sidebar.Location = new System.Drawing.Point(-200, 0);
+            this.sidebar.Location = new System.Drawing.Point(-300, 0);
             this.sidebar.Name = "sidebar";
-            this.sidebar.Size = new System.Drawing.Size(200, 451);
+            this.sidebar.Size = new System.Drawing.Size(300, 451);
             this.sidebar.TabIndex = 0;
             // 
             // libraryPanel
             // 
+            this.libraryPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.libraryPanel.HideSelection = false;
             this.libraryPanel.Location = new System.Drawing.Point(12, 60);
             this.libraryPanel.MultiSelect = false;
@@ -71,13 +73,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(674, 451);
-            this.ControlBox = false;
             this.Controls.Add(this.menuButton);
             this.Controls.Add(this.sidebar);
             this.Controls.Add(this.libraryPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "Library";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Library";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.menuButton)).EndInit();
             this.ResumeLayout(false);
 

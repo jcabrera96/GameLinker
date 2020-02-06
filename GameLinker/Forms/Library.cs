@@ -52,7 +52,7 @@ namespace GameLinker.Forms
             {
                 ShowingSidebar = false;
                 Transition mainAnimation = new Transition(new TransitionType_CriticalDamping(500));
-                mainAnimation.add(sidebar, "Left", -200);
+                mainAnimation.add(sidebar, "Left", -sidebar.Width);
                 mainAnimation.add(libraryPanel, "Width", libraryPanel.Width + sidebar.Width);
                 mainAnimation.add(libraryPanel, "Left", libraryPanel.Left - sidebar.Width);
                 mainAnimation.add(menuButton, "Left", menuButton.Left - sidebar.Width);

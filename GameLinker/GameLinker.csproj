@@ -89,7 +89,6 @@
     <Compile Include="Forms\UploadProgressForm.Designer.cs">
       <DependentUpon>UploadProgressForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Helpers\AuthentificationHelper.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Helpers\FileToStreamHelper.cs" />
