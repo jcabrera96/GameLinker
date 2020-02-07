@@ -118,16 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="add_game" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\Icons\add_game.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sidebar_inactive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\sidebar_inactive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="generic_game" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\Icons\generic_game.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="add_game" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\add_game.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="sidebar_active" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\Icons\sidebar_active.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sidebar_inactive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\Icons\sidebar_inactive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="logout" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\logout.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logout_active" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\logout_active.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

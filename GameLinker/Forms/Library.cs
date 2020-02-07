@@ -28,6 +28,9 @@ namespace GameLinker.Forms
             await LibraryHelper.LoadLibrary();
             GenerateGamesList();
             libraryPanel.DoubleClick += ListItemClicked;
+            logoutButton.MouseEnter += LogoutButtonEnter;
+            logoutButton.MouseLeave += LogoutButtonExit;
+            logoutButton.Click += LogoutButtonClick;
         }
 
         private void GenerateGamesList()
@@ -95,6 +98,22 @@ namespace GameLinker.Forms
                     addGameForm.ShowDialog(this);
                     break;
             }
+        }
+
+        private void LogoutButtonEnter(object sender, EventArgs e)
+        {
+            logoutButton.Image = Resources.logout_active;
+        }
+
+        private void LogoutButtonExit(object sender, EventArgs e)
+        {
+            logoutButton.Image = Resources.logout;
+        }
+
+        private void LogoutButtonClick(object sender, EventArgs e)
+        {
+            DialogResult answer = MessageBox.Show("Are you sure you want to logout from OneDrive?","Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (answer == DialogResult.Yes) OnedriveHelper.Instance.EndSession();
         }
 
         private void MenuButton_Click(object sender, EventArgs e)

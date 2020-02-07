@@ -269,5 +269,10 @@ namespace GameLinker.Helpers
             }
         }
 
+        public async void EndSession()
+        {
+            if (authenticator == null) await InitClient();
+            await authenticator.SignOutAsync();
+        }
     }
 }
