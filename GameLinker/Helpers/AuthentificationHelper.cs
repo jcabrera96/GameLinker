@@ -14,7 +14,8 @@ namespace GameLinker.Helpers
             return new MsaAuthenticationProvider(
                 clientId,
                 returnUrl,
-                scopes
+                scopes,
+                new CredentialVault(clientId)
             );
         }
     }

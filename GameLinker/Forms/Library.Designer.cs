@@ -30,14 +30,14 @@
         {
             this.sidebar = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.SessionToogleLabel = new System.Windows.Forms.Label();
             this.libraryPanel = new System.Windows.Forms.ListView();
-            this.label1 = new System.Windows.Forms.Label();
             this.menuButton = new System.Windows.Forms.PictureBox();
-            this.logoutButton = new System.Windows.Forms.PictureBox();
+            this.sessionToogleButton = new System.Windows.Forms.PictureBox();
             this.sidebar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.menuButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.logoutButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sessionToogleButton)).BeginInit();
             this.SuspendLayout();
             // 
             // sidebar
@@ -59,8 +59,8 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.04348F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.95652F));
-            this.tableLayoutPanel1.Controls.Add(this.logoutButton, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.sessionToogleButton, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.SessionToogleLabel, 1, 9);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 10;
@@ -74,8 +74,23 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(276, 527);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // SessionToogleLabel
+            // 
+            this.SessionToogleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SessionToogleLabel.AutoSize = true;
+            this.SessionToogleLabel.Font = new System.Drawing.Font("Times New Roman", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SessionToogleLabel.Location = new System.Drawing.Point(108, 468);
+            this.SessionToogleLabel.Name = "SessionToogleLabel";
+            this.SessionToogleLabel.Size = new System.Drawing.Size(165, 59);
+            this.SessionToogleLabel.TabIndex = 1;
+            this.SessionToogleLabel.Text = "Logout";
+            this.SessionToogleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // libraryPanel
             // 
@@ -90,20 +105,6 @@
             this.libraryPanel.TabIndex = 1;
             this.libraryPanel.UseCompatibleStateImageBehavior = false;
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(108, 468);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(165, 59);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Logout";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // menuButton
             // 
             this.menuButton.Image = global::GameLinker.Properties.Resources.sidebar_inactive;
@@ -115,17 +116,17 @@
             this.menuButton.TabStop = false;
             this.menuButton.Click += new System.EventHandler(this.MenuButton_Click);
             // 
-            // logoutButton
+            // sessionToogleButton
             // 
-            this.logoutButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.sessionToogleButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.logoutButton.Image = global::GameLinker.Properties.Resources.logout;
-            this.logoutButton.Location = new System.Drawing.Point(53, 471);
-            this.logoutButton.Name = "logoutButton";
-            this.logoutButton.Size = new System.Drawing.Size(49, 53);
-            this.logoutButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.logoutButton.TabIndex = 0;
-            this.logoutButton.TabStop = false;
+            this.sessionToogleButton.Image = global::GameLinker.Properties.Resources.logout;
+            this.sessionToogleButton.Location = new System.Drawing.Point(53, 471);
+            this.sessionToogleButton.Name = "sessionToogleButton";
+            this.sessionToogleButton.Size = new System.Drawing.Size(49, 53);
+            this.sessionToogleButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.sessionToogleButton.TabIndex = 0;
+            this.sessionToogleButton.TabStop = false;
             // 
             // Library
             // 
@@ -145,7 +146,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.menuButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.logoutButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sessionToogleButton)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -156,7 +157,7 @@
         private System.Windows.Forms.ListView libraryPanel;
         private System.Windows.Forms.PictureBox menuButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PictureBox logoutButton;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox sessionToogleButton;
+        private System.Windows.Forms.Label SessionToogleLabel;
     }
 }

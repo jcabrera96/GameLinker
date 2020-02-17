@@ -16,7 +16,8 @@ namespace GameLinker.Forms
     public partial class Library : Form
     {
         private bool ShowingSidebar = false;
-
+        private ImageList gamesIconsList;
+        private List<ListViewItem> gamesList;
         public Library()
         {
             InitializeComponent();
@@ -28,33 +29,35 @@ namespace GameLinker.Forms
             await LibraryHelper.LoadLibrary();
             GenerateGamesList();
             libraryPanel.DoubleClick += ListItemClicked;
-            logoutButton.MouseEnter += LogoutButtonEnter;
-            logoutButton.MouseLeave += LogoutButtonExit;
-            logoutButton.Click += LogoutButtonClick;
+            sessionToogleButton.Image = await OnedriveHelper.Instance.IsAuthenticated() ? Resources.logout : Resources.login;
+            SessionToogleLabel.Text = await OnedriveHelper.Instance.IsAuthenticated() ? "Logout" : "Login";
+            sessionToogleButton.MouseEnter += SessionToogleButtonEnter;
+            sessionToogleButton.MouseLeave += SessionToogleButtonExit;
+            sessionToogleButton.Click += SessionToogle;
         }
 
-        private void GenerateGamesList()
+        private async void GenerateGamesList()
         {
-            ImageList gamesIconsList = new ImageList();
+            gamesIconsList = new ImageList();
             gamesIconsList.ImageSize = new Size(128, 128);
-            List<ListViewItem> gamesList = new List<ListViewItem>();
+            gamesList = new List<ListViewItem>();
             gamesList.Add(new ListViewItem
             {
                 Text = "Add game",
                 Tag = -1,
-                ImageIndex = 0
+                ImageKey = "0"
             });
-            gamesIconsList.Images.Add(Resources.add_game);
+            gamesIconsList.Images.Add("0", await OnedriveHelper.Instance.IsAuthenticated() ? Resources.add_game : Resources.add_game_disabled);
             foreach (var game in LibraryHelper.Library.GetGames())
             {
                 ListViewItem gamesListItem = new ListViewItem
                 {
                     Text = game.GameName,
                     Tag = LibraryHelper.Library.GetGames().IndexOf(game),
-                    ImageIndex = gamesIconsList.Images.Count
+                    ImageKey = gamesIconsList.Images.Count.ToString()
                 };
                 gamesList.Add(gamesListItem);
-                gamesIconsList.Images.Add(Resources.generic_game);
+                gamesIconsList.Images.Add(gamesIconsList.Images.Count.ToString(), Resources.generic_game);
             }
             libraryPanel.Columns.Add("Games", -2, HorizontalAlignment.Center);
             libraryPanel.Items.AddRange(gamesList.ToArray());
@@ -89,31 +92,48 @@ namespace GameLinker.Forms
             }
         }
 
-        private void ListItemClicked(object sender, EventArgs e)
+        private async void ListItemClicked(object sender, EventArgs e)
         {
             switch ((int)libraryPanel.SelectedItems[0].Tag)
             {
                 case -1:
+                    if (!await OnedriveHelper.Instance.IsAuthenticated())
+                    {
+                        MessageBox.Show("You can't add a game to the library while not logged in", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                     NewGameForm addGameForm = new NewGameForm();
                     addGameForm.ShowDialog(this);
                     break;
             }
         }
 
-        private void LogoutButtonEnter(object sender, EventArgs e)
+        private async void SessionToogleButtonEnter(object sender, EventArgs e)
         {
-            logoutButton.Image = Resources.logout_active;
+            sessionToogleButton.Image = await OnedriveHelper.Instance.IsAuthenticated() ? Resources.logout_active : Resources.login_active;
         }
 
-        private void LogoutButtonExit(object sender, EventArgs e)
+        private async void SessionToogleButtonExit(object sender, EventArgs e)
         {
-            logoutButton.Image = Resources.logout;
+            sessionToogleButton.Image = await OnedriveHelper.Instance.IsAuthenticated() ? Resources.logout : Resources.login;
         }
 
-        private void LogoutButtonClick(object sender, EventArgs e)
+        private async void SessionToogle(object sender, EventArgs e)
         {
-            DialogResult answer = MessageBox.Show("Are you sure you want to logout from OneDrive?","Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (answer == DialogResult.Yes) OnedriveHelper.Instance.EndSession();
+            if (await OnedriveHelper.Instance.IsAuthenticated())
+            {
+                DialogResult answer = MessageBox.Show("Are you sure you want to logout from OneDrive?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (answer == DialogResult.Yes) await OnedriveHelper.Instance.EndSession();
+            }
+            else
+            {
+                await OnedriveHelper.Instance.Authenticate();
+            }
+            gamesIconsList.Images.RemoveByKey("0");
+            gamesIconsList.Images.Add("0", await OnedriveHelper.Instance.IsAuthenticated() ? Resources.add_game : Resources.add_game_disabled);
+            libraryPanel.Refresh();
+            sessionToogleButton.Image = await OnedriveHelper.Instance.IsAuthenticated() ? Resources.logout : Resources.login;
+            SessionToogleLabel.Text = await OnedriveHelper.Instance.IsAuthenticated() ? "Logout" : "Login";
         }
 
         private void MenuButton_Click(object sender, EventArgs e)

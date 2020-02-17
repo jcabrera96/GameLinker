@@ -57,16 +57,41 @@ namespace GameLinker.Helpers
             };
         }
 
-        async Task InitClient()
+        void InitAuthenticator()
         {
             authenticator = AuthentificationHelper.GetAuthenticator(appId, "https://login.live.com/oauth20_desktop.srf", scopes);
+        }
+
+        public async Task Authenticate()
+        {
+            if (authenticator == null) InitAuthenticator();
             await authenticator.AuthenticateUserAsync();
             client = new OneDriveClient("https://api.onedrive.com/v1.0", authenticator);
         }
 
+        private async Task SilentAuthenticate()
+        {
+            if (authenticator == null) InitAuthenticator();
+            await authenticator.RestoreMostRecentFromCacheAsync();
+            client = new OneDriveClient("https://api.onedrive.com/v1.0", authenticator);
+        }
+
+        public async Task EndSession()
+        {
+            if (authenticator == null) InitAuthenticator();
+            await authenticator.SignOutAsync();
+        }
+
+        public async Task<bool> IsAuthenticated()
+        {
+            if (authenticator == null) InitAuthenticator();
+            await SilentAuthenticate();
+            return authenticator.IsAuthenticated;
+        }
+
         public async Task<Item> GetFolder(string folderPath)
         {
-            if (authenticator == null) await InitClient();
+            if (authenticator == null) InitAuthenticator();
             var folder = await client
                              .Drive
                              .Root
@@ -81,7 +106,7 @@ namespace GameLinker.Helpers
             var folderToCreate = new Item { Folder = new Folder() };
             try
             {
-                if (authenticator == null) await InitClient();
+                if (authenticator == null) InitAuthenticator();
                 var folder = await client
                                  .Drive
                                  .Root
@@ -105,7 +130,7 @@ namespace GameLinker.Helpers
         {
             try
             {
-                if (authenticator == null) await InitClient();
+                if (authenticator == null) InitAuthenticator();
                 var dataStream = await client.Drive.Root.ItemWithPath(itemPath).Content.Request().GetAsync();
                 byte[] data = new byte[(int)dataStream.Length];
                 dataStream.Read(data, 0, (int)dataStream.Length);
@@ -119,7 +144,7 @@ namespace GameLinker.Helpers
 
         public async Task<Item> UploadItem(string itemPath, string destinationPath, UploadProgressForm uploadForm)
         {
-            if (authenticator == null) await InitClient();
+            if (authenticator == null) InitAuthenticator();
             Item itemResult = null;
             try
             {
@@ -267,12 +292,6 @@ namespace GameLinker.Helpers
                 }
                 await CheckForFolders(folder , destinationPath + folderName, files);
             }
-        }
-
-        public async void EndSession()
-        {
-            if (authenticator == null) await InitClient();
-            await authenticator.SignOutAsync();
         }
     }
 }
