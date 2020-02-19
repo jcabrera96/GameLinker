@@ -2,12 +2,7 @@
 using GameLinker.Properties;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Transitions;
 
@@ -18,17 +13,24 @@ namespace GameLinker.Forms
         private bool ShowingSidebar = false;
         private ImageList gamesIconsList;
         private List<ListViewItem> gamesList;
+        private ListViewItem lastItemHovered;
+        private bool lastItemHasDecreased = true;
+
         public Library()
         {
             InitializeComponent();
             InitializeLibrary();
         }
 
+        #region Initialization
+
         private async void InitializeLibrary()
         {
             await LibraryHelper.LoadLibrary();
             GenerateGamesList();
-            libraryPanel.DoubleClick += ListItemClicked;
+            libraryPanel.Click += ListItemClicked;
+            libraryPanel.MouseMove += ListItemHover;
+            libraryPanel.ItemSelectionChanged += ListViewItemSelectionChanged;
             sessionToogleButton.Image = await OnedriveHelper.Instance.IsAuthenticated() ? Resources.logout : Resources.login;
             SessionToogleLabel.Text = await OnedriveHelper.Instance.IsAuthenticated() ? "Logout" : "Login";
             sessionToogleButton.MouseEnter += SessionToogleButtonEnter;
@@ -64,6 +66,15 @@ namespace GameLinker.Forms
             libraryPanel.LargeImageList = gamesIconsList;
         }
 
+        #endregion
+
+        #region Sidebar
+
+        private void MenuButton_Click(object sender, EventArgs e)
+        {
+            ToogleSidebar();
+        }
+
         private void ToogleSidebar()
         {
             Transition clickAnimation = new Transition(new TransitionType_Bounce(200));
@@ -89,22 +100,6 @@ namespace GameLinker.Forms
                 mainAnimation.add(menuButton, "Left", menuButton.Left + sidebar.Width);
                 Transition.runChain(clickAnimation, mainAnimation);
                 menuButton.Image = Resources.sidebar_active;
-            }
-        }
-
-        private async void ListItemClicked(object sender, EventArgs e)
-        {
-            switch ((int)libraryPanel.SelectedItems[0].Tag)
-            {
-                case -1:
-                    if (!await OnedriveHelper.Instance.IsAuthenticated())
-                    {
-                        MessageBox.Show("You can't add a game to the library while not logged in", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    NewGameForm addGameForm = new NewGameForm();
-                    addGameForm.ShowDialog(this);
-                    break;
             }
         }
 
@@ -136,9 +131,66 @@ namespace GameLinker.Forms
             SessionToogleLabel.Text = await OnedriveHelper.Instance.IsAuthenticated() ? "Logout" : "Login";
         }
 
-        private void MenuButton_Click(object sender, EventArgs e)
+        #endregion
+
+        private void ListViewItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            ToogleSidebar();
+            if (e.IsSelected)
+            {
+                e.Item.Selected = false;
+            }
+        }
+
+        private async void ListItemClicked(object sender, EventArgs e)
+        {
+            switch ((int)lastItemHovered.Tag)
+            {
+                case -1:
+                    if (!await OnedriveHelper.Instance.IsAuthenticated())
+                    {
+                        MessageBox.Show("You can't add a game to the library while not logged in", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    NewGameForm addGameForm = new NewGameForm();
+                    addGameForm.ShowDialog(this);
+                    break;
+            }
+        }
+
+        private async void ListItemHover(object sender, MouseEventArgs e)
+        {
+            ListViewItem listviewTest = libraryPanel.HitTest(e.X, e.Y).Item as ListViewItem;
+            if (listviewTest != null)
+            {
+                if(lastItemHovered == null || lastItemHovered != listviewTest)
+                {
+                    lastItemHovered = listviewTest;
+                    lastItemHasDecreased = false;
+                    gamesIconsList.Images.RemoveByKey(lastItemHovered.ImageKey);
+                    if(lastItemHovered.ImageKey == "0")
+                    {
+                        gamesIconsList.Images.Add(lastItemHovered.ImageKey, await OnedriveHelper.Instance.IsAuthenticated() ? Resources.add_game_selected : Resources.add_game_disabled);
+                    }
+                    else
+                    {
+                        gamesIconsList.Images.Add(lastItemHovered.ImageKey, Resources.generic_game_selected);
+                    }
+                }
+            }
+            else if(listviewTest == null && lastItemHasDecreased == false)
+            {
+                lastItemHasDecreased = true;
+                gamesIconsList.Images.RemoveByKey(lastItemHovered.ImageKey);
+                if (lastItemHovered.ImageKey == "0")
+                {
+                    gamesIconsList.Images.Add(lastItemHovered.ImageKey, await OnedriveHelper.Instance.IsAuthenticated() ? Resources.add_game : Resources.add_game_disabled);
+                }
+                else
+                {
+                    gamesIconsList.Images.Add(lastItemHovered.ImageKey, Resources.generic_game);
+                }
+                lastItemHovered = null;
+            }
         }
     }
 }
