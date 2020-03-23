@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UploadProgressForm));
             this.uploadProgressBar = new System.Windows.Forms.ProgressBar();
             this.acceptButton = new System.Windows.Forms.Button();
             this.uploadLabel = new System.Windows.Forms.Label();
@@ -38,82 +39,46 @@
             // 
             // uploadProgressBar
             // 
-            this.uploadProgressBar.Location = new System.Drawing.Point(16, 183);
-            this.uploadProgressBar.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.uploadProgressBar, "uploadProgressBar");
             this.uploadProgressBar.Name = "uploadProgressBar";
-            this.uploadProgressBar.Size = new System.Drawing.Size(951, 28);
             this.uploadProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.uploadProgressBar.TabIndex = 0;
             // 
             // acceptButton
             // 
-            this.acceptButton.Enabled = false;
-            this.acceptButton.Location = new System.Drawing.Point(443, 231);
-            this.acceptButton.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.acceptButton, "acceptButton");
             this.acceptButton.Name = "acceptButton";
-            this.acceptButton.Size = new System.Drawing.Size(100, 28);
-            this.acceptButton.TabIndex = 1;
-            this.acceptButton.Text = "Aceptar";
             this.acceptButton.UseVisualStyleBackColor = true;
             this.acceptButton.Click += new System.EventHandler(this.acceptButton_Click);
             // 
             // uploadLabel
             // 
-            this.uploadLabel.AutoSize = true;
-            this.uploadLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uploadLabel.Font = new System.Drawing.Font("MS UI Gothic", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uploadLabel.Location = new System.Drawing.Point(4, 0);
-            this.uploadLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.uploadLabel, "uploadLabel");
             this.uploadLabel.Name = "uploadLabel";
-            this.uploadLabel.Size = new System.Drawing.Size(943, 44);
-            this.uploadLabel.TabIndex = 2;
-            this.uploadLabel.Text = "Upload progress...";
-            this.uploadLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // uploadValueLabel
             // 
-            this.uploadValueLabel.AutoSize = true;
-            this.uploadValueLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uploadValueLabel.Font = new System.Drawing.Font("MS UI Gothic", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uploadValueLabel.Location = new System.Drawing.Point(4, 44);
-            this.uploadValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            resources.ApplyResources(this.uploadValueLabel, "uploadValueLabel");
             this.uploadValueLabel.Name = "uploadValueLabel";
-            this.uploadValueLabel.Size = new System.Drawing.Size(943, 44);
-            this.uploadValueLabel.TabIndex = 3;
-            this.uploadValueLabel.Text = "0%";
-            this.uploadValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.38276F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.61724F));
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.uploadLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.uploadValueLabel, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 38);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(951, 88);
-            this.tableLayoutPanel1.TabIndex = 4;
             // 
             // UploadProgressForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(983, 274);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.acceptButton);
             this.Controls.Add(this.uploadProgressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "UploadProgressForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Upload progress";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.UploadProgressForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);

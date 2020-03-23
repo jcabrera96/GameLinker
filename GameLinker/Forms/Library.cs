@@ -1,8 +1,10 @@
 ﻿using GameLinker.Helpers;
 using GameLinker.Properties;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Transitions;
 
@@ -15,6 +17,7 @@ namespace GameLinker.Forms
         private List<ListViewItem> gamesList;
         private ListViewItem lastItemHovered;
         private bool lastItemHasDecreased = true;
+        private JObject lang = (JObject)LocalizationHelper.Instance.libraryLocalization[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
         public Library()
         {
@@ -32,7 +35,7 @@ namespace GameLinker.Forms
             libraryPanel.MouseMove += ListItemHover;
             libraryPanel.ItemSelectionChanged += ListViewItemSelectionChanged;
             sessionToogleButton.Image = await OnedriveHelper.Instance.IsAuthenticated() ? Resources.logout : Resources.login;
-            SessionToogleLabel.Text = await OnedriveHelper.Instance.IsAuthenticated() ? "Logout" : "Login";
+            SessionToogleLabel.Text = (string)lang[await OnedriveHelper.Instance.IsAuthenticated() ? "log_out" : "log_in"];
             sessionToogleButton.MouseEnter += SessionToogleButtonEnter;
             sessionToogleButton.MouseLeave += SessionToogleButtonExit;
             sessionToogleButton.Click += SessionToogle;
@@ -45,7 +48,7 @@ namespace GameLinker.Forms
             gamesList = new List<ListViewItem>();
             gamesList.Add(new ListViewItem
             {
-                Text = "Add game",
+                Text = (string)lang["add_game"],
                 Tag = -1,
                 ImageKey = "0"
             });
@@ -117,7 +120,7 @@ namespace GameLinker.Forms
         {
             if (await OnedriveHelper.Instance.IsAuthenticated())
             {
-                DialogResult answer = MessageBox.Show("Are you sure you want to logout from OneDrive?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult answer = MessageBox.Show((string)lang["log_out_confirm"], (string)lang["warning"], MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (answer == DialogResult.Yes) await OnedriveHelper.Instance.EndSession();
             }
             else
@@ -128,7 +131,7 @@ namespace GameLinker.Forms
             gamesIconsList.Images.Add("0", await OnedriveHelper.Instance.IsAuthenticated() ? Resources.add_game : Resources.add_game_disabled);
             libraryPanel.Refresh();
             sessionToogleButton.Image = await OnedriveHelper.Instance.IsAuthenticated() ? Resources.logout : Resources.login;
-            SessionToogleLabel.Text = await OnedriveHelper.Instance.IsAuthenticated() ? "Logout" : "Login";
+            SessionToogleLabel.Text = (string)lang[await OnedriveHelper.Instance.IsAuthenticated() ? "log_out" : "log_in"];
         }
 
         #endregion
@@ -148,7 +151,8 @@ namespace GameLinker.Forms
                 case -1:
                     if (!await OnedriveHelper.Instance.IsAuthenticated())
                     {
-                        MessageBox.Show("You can't add a game to the library while not logged in", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            (string)lang["add_game_disabled"], "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                     NewGameForm addGameForm = new NewGameForm();

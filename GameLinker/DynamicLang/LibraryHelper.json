@@ -1,0 +1,22 @@
+{
+  "es": {
+    "downloading_library": "Descargando la biblioteca. Espere, por favor.",
+    "download_progress": "Estado de la descarga",
+    "library_not_found": "No se ha encontrado la biblioteca de juegos.\n¿Desea tratar de descargar una copia en la nube?",
+    "library_being_created": "No se ha encontrado la biblioteca de juegos.\nSe creará una nueva.",
+    "library_restored": "Biblioteca restaurada correctamente.",
+    "library_corrupted": "La biblioteca de juegos está corrupta o es inválida.\n¿Desea tratar de descargar una copia en la nube?",
+    "warning": "Atención",
+    "success":  "Exito"
+  },
+  "en": {
+    "downloading_library": "Downloading library. Please wait.",
+    "download_progress": "Download status",
+    "library_not_found": "Games' library doesn't exist.\nDo you want to try to download a copy from the cloud?",
+    "library_being_created": "Games' library doesn't exist.\nA new one will be created.",
+    "library_restored": "Library sucessfully restored.",
+    "library_corrupted": "Games' library is corrupted or invalid.\nDo you want to try to download a copy from the cloud?",
+    "warning": "Warning",
+    "success":  "Success"
+  }
+}

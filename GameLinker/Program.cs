@@ -3,6 +3,7 @@ using GameLinker.Helpers;
 using GameLinker.Properties;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +20,7 @@ namespace GameLinker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentUICulture;
             if (Settings.Default.MaxUploadThreads == -1)
             {
                 Settings.Default.MaxUploadThreads = Environment.ProcessorCount - 1;

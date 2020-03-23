@@ -93,17 +93,27 @@
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Helpers\FileToStreamHelper.cs" />
     <Compile Include="Helpers\LibraryHelper.cs" />
+    <Compile Include="Helpers\LocalizationHelper.cs" />
     <Compile Include="Helpers\OnedriveHelper.cs" />
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GamesLibrary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Library.es.resx">
+      <DependentUpon>Library.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Library.resx">
       <DependentUpon>Library.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewGameForm.es.resx">
+      <DependentUpon>NewGameForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewGameForm.resx">
       <DependentUpon>NewGameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UploadProgressForm.es.resx">
+      <DependentUpon>UploadProgressForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UploadProgressForm.resx">
       <DependentUpon>UploadProgressForm.cs</DependentUpon>
@@ -119,6 +129,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Configs\AppKey.json" />
+    <EmbeddedResource Include="DynamicLang\Library.json" />
+    <EmbeddedResource Include="DynamicLang\OnedriveHelper.json" />
+    <None Include="DynamicLang\LibraryHelper.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -134,16 +147,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SidebarActive.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\Icons\sidebar_active.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Icons\sidebar_inactive.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add_game.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Icons\add_game.png" />
@@ -171,6 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Icons\add_game_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

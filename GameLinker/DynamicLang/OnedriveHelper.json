@@ -1,0 +1,14 @@
+{
+  "es": {
+    "compressing_data": "Comprimiendo archivos de mods",
+    "compressing_saves": "Comprimiendo partidas guardadas",
+    "uploading_data": "Subiendo archivos de mods",
+    "uploading_saves": "Subiendo partidas guardadas"
+  },
+  "en": {
+    "compressing_data": "Compressing mods' files",
+    "compressing_saves": "Compressing savegames",
+    "uploading_data": "Uploading mods' files",
+    "uploading_saves": "Uploading savegames"
+  }
+}

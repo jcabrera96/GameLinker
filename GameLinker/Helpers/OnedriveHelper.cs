@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,6 +25,7 @@ namespace GameLinker.Helpers
         string appId;
         MsaAuthenticationProvider authenticator;
         OneDriveClient client;
+        private JObject lang = (JObject)LocalizationHelper.Instance.onedriveHelperLocalization[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
         public int compressedFilesCount, uploadedCompressedFiles;
 
@@ -203,14 +205,14 @@ namespace GameLinker.Helpers
         {
             Item folder = await CreateFolder(destinationPath);
             var folderName = Path.GetFileName(folderPath);
-            uploadForm.uploadLabel.Text = isGameData ? "Compressing data files" : "Compressing save files";
+            uploadForm.uploadLabel.Text = (string)lang[isGameData ? "compressing_data" : "compressing_saves"];
             uploadForm.uploadValueLabel.Text = "";
             uploadForm.uploadProgressBar.Value = 100;
             uploadForm.uploadProgressBar.Style = ProgressBarStyle.Marquee;
             uploadForm.Show();
             Dictionary<string,List<string>> compressedFilesData = await CompressFiles(uploadForm, folderPath, gameName, isGameData);
             System.GC.Collect();
-            uploadForm.uploadLabel.Text = isGameData ? "Uploading data files" : "Uploading save files";
+            uploadForm.uploadLabel.Text = (string)lang[isGameData ? "uploading_data" : "uploading_saves"];
             uploadForm.uploadValueLabel.Text = "0%";
             uploadForm.uploadProgressBar.Value = 0;
             uploadForm.uploadProgressBar.Style = ProgressBarStyle.Continuous;
@@ -229,7 +231,7 @@ namespace GameLinker.Helpers
             {
                 int dotsCount = uploadForm.uploadLabel.Text.Count(c => c == '.');
                 uploadForm.Invoke((MethodInvoker)delegate {
-                    uploadForm.uploadLabel.Text = (isGameData ? "Uploading data files" : "Uploading save files") + new string('.', (dotsCount + 1) % 4);
+                    uploadForm.uploadLabel.Text = ((string)lang[isGameData ? "uploading_data" : "uploading_saves"]) + new string('.', (dotsCount + 1) % 4);
                 });
             };
             dotsTimer.Enabled = true;
@@ -259,7 +261,7 @@ namespace GameLinker.Helpers
             {
                 int dotsCount = uploadForm.uploadLabel.Text.Count(c => c == '.');
                 uploadForm.Invoke((MethodInvoker)delegate {
-                    uploadForm.uploadLabel.Text = (isGameData ? "Compressing data files" : "Compressing save files") + new string('.', (dotsCount + 1) % 4);
+                    uploadForm.uploadLabel.Text = ((string)lang[isGameData ? "compressing_data" : "compressing_saves"]) + new string('.', (dotsCount + 1) % 4);
                 });
             };
             dotsTimer.Enabled = true;

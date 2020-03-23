@@ -1,8 +1,10 @@
 ﻿using GameLinker.Forms;
 using GameLinker.Models;
 using Microsoft.OneDrive.Sdk;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,7 @@ namespace GameLinker.Helpers
     public class LibraryHelper : Serializer
     {
         public static GamesLibrary Library { get; private set; }
+        private static JObject lang = (JObject)LocalizationHelper.Instance.libraryHelperLocalization[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
         public static void SaveLibrary()
         {
@@ -25,8 +28,8 @@ namespace GameLinker.Helpers
             if (Library == null)
             {
                 UploadProgressForm uploadForm = new UploadProgressForm();
-                uploadForm.uploadLabel.Text = "Downloading library. Please wait.";
-                uploadForm.Text = "Download progress";
+                uploadForm.uploadLabel.Text = (string)lang["downloading_library"];
+                uploadForm.Text = (string)lang["download_progress"];
                 uploadForm.uploadValueLabel.Text = "";
                 uploadForm.uploadProgressBar.Value = 100;
                 try
@@ -35,7 +38,7 @@ namespace GameLinker.Helpers
                 }
                 catch (FileNotFoundException)
                 {
-                    DialogResult response = MessageBox.Show("No se ha encontrado la biblioteca de juegos.\n¿Desea tratar de descargar una copia en la nube?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    DialogResult response = MessageBox.Show((string)lang["library_not_found"], (string)lang["warning"], MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if(response == DialogResult.Yes)
                     {
                         uploadForm.Show();
@@ -44,26 +47,26 @@ namespace GameLinker.Helpers
                         if(libraryData == null)
                         {
                             Library = new GamesLibrary();
-                            MessageBox.Show("No se ha encontrado la biblioteca de juegos.\nSe creará una nueva.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show((string)lang["library_being_created"], (string)lang["warning"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             SaveLibrary();
                         }
                         else
                         {
                             Library = (GamesLibrary)DeserializeBytes(libraryData);
                             SaveLibrary();
-                            MessageBox.Show("Biblioteca restaurada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show((string)lang["library_restored"], (string)lang["success"], MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                     else
                     {
                         Library = new GamesLibrary();
-                        MessageBox.Show("No se ha encontrado la biblioteca de juegos.\nSe creará una nueva.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show((string)lang["library_being_restored"], (string)lang["warning"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         SaveLibrary();
                     }
                 }
                 catch (InvalidCastException)
                 {
-                    DialogResult response = MessageBox.Show("La biblioteca de juegos está corrupta o es inválida.\n¿Desea tratar de descargar una copia en la nube?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    DialogResult response = MessageBox.Show((string)lang["library_corrupted"], (string)lang["warning"], MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (response == DialogResult.Yes)
                     {
                         uploadForm.Show();
@@ -72,20 +75,20 @@ namespace GameLinker.Helpers
                         if (libraryData == null)
                         {
                             Library = new GamesLibrary();
-                            MessageBox.Show("No se ha encontrado la biblioteca de juegos.\nSe creará una nueva.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show((string)lang["library_being_created"], (string)lang["warning"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             SaveLibrary();
                         }
                         else
                         {
                             Library = (GamesLibrary)DeserializeBytes(libraryData);
                             SaveLibrary();
-                            MessageBox.Show("Biblioteca restaurada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show((string)lang["library_restored"], (string)lang["success"], MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                     else
                     {
                         Library = new GamesLibrary();
-                        MessageBox.Show("No se ha encontrado la biblioteca de juegos.\nSe creará una nueva.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show((string)lang["library_being_created"], (string)lang["warning"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         SaveLibrary();
                     }
                 }
