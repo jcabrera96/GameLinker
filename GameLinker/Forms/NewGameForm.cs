@@ -1,10 +1,12 @@
 ﻿using GameLinker.Forms;
 using GameLinker.Helpers;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -17,9 +19,12 @@ namespace GameLinker
     public partial class NewGameForm : Form
     {
         OnedriveHelper onedriveManager;
+        Library.CallBack callback;
+        JObject lang = (JObject)LocalizationHelper.Instance.newGameFormLocalization[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
-        public NewGameForm()
+        public NewGameForm(Library.CallBack callback)
         {
+            this.callback = callback;
             InitializeComponent();
             onedriveManager = OnedriveHelper.Instance;
         }
@@ -47,21 +52,33 @@ namespace GameLinker
             try
             {
                 Game item = new Game(savesPath, dataPath, gameName);
-                UploadProgressForm uploadForm = new UploadProgressForm();
-                if (dataPath != "") item.DataSize = await onedriveManager.UploadFolder(dataPath, "GameLinker/" + gameName + "/", uploadForm, gameName);
-                if (savesPath != "") item.SaveSize = await onedriveManager.UploadFolder(savesPath, "GameLinker/" + gameName + "/", uploadForm, gameName, false);
-                uploadForm.uploadLabel.Text = "Updating game library";
+                UploadProgressForm uploadForm = new UploadProgressForm(callback);
+                uploadForm.Show(Owner);
+                Hide();
+                if (dataPath != "") {
+                    int[] filesData = await onedriveManager.UploadFolder(dataPath, "GameLinker/" + gameName + "/", uploadForm, gameName);
+                    item.DataParts = filesData[1];
+                    item.DataSize = filesData[0];
+                }
+                if (savesPath != "")
+                {
+                    int[] savesData = await onedriveManager.UploadFolder(dataPath, "GameLinker/" + gameName + "/", uploadForm, gameName);
+                    item.SavesParts = savesData[1];
+                    item.SaveSize = savesData[0];
+                }
+                uploadForm.uploadLabel.Text = (string)lang["updating_library"];
                 uploadForm.uploadValueLabel.Text = "";
                 LibraryHelper.Library.AddGame(item);
                 LibraryHelper.SaveLibrary();
-                uploadForm.uploadLabel.Text = "Uploading updated game library";
+                uploadForm.uploadLabel.Text = (string)lang["uploading_updated_library"];
                 uploadForm.uploadValueLabel.Text = "0%";
                 onedriveManager.compressedFilesCount = 1;
                 onedriveManager.uploadedCompressedFiles = 0;
                 await onedriveManager.UploadItem(AppDomain.CurrentDomain.BaseDirectory + "Library.bin", "GameLinker/" + "Library.bin", uploadForm);
-                uploadForm.uploadLabel.Text = "Game files uploaded successfully.";
+                uploadForm.uploadLabel.Text = (string)lang["upload_successful"];
                 uploadForm.uploadValueLabel.Text = "";
                 uploadForm.acceptButton.Enabled = true;
+                Close();
             }
             catch(ArgumentNullException err)
             {

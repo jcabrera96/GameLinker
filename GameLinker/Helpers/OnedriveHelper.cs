@@ -66,9 +66,16 @@ namespace GameLinker.Helpers
 
         public async Task Authenticate()
         {
-            if (authenticator == null) InitAuthenticator();
-            await authenticator.AuthenticateUserAsync();
-            client = new OneDriveClient("https://api.onedrive.com/v1.0", authenticator);
+            try
+            {
+                if (authenticator == null) InitAuthenticator();
+                await authenticator.AuthenticateUserAsync();
+                client = new OneDriveClient("https://api.onedrive.com/v1.0", authenticator);
+            }
+            catch (Microsoft.Graph.ServiceException ex)
+            {
+                if (ex.Error.Code != "authenticationFailure" && ex.Error.Code != "authenticationCanceled") return;
+            }
         }
 
         private async Task SilentAuthenticate()
@@ -201,7 +208,7 @@ namespace GameLinker.Helpers
             return itemResult;
         }
 
-        public async Task<int> UploadFolder(string folderPath, string destinationPath, UploadProgressForm uploadForm, string gameName,bool isGameData = true)
+        public async Task<int[]> UploadFolder(string folderPath, string destinationPath, UploadProgressForm uploadForm, string gameName,bool isGameData = true)
         {
             Item folder = await CreateFolder(destinationPath);
             var folderName = Path.GetFileName(folderPath);
@@ -209,7 +216,6 @@ namespace GameLinker.Helpers
             uploadForm.uploadValueLabel.Text = "";
             uploadForm.uploadProgressBar.Value = 100;
             uploadForm.uploadProgressBar.Style = ProgressBarStyle.Marquee;
-            uploadForm.Show();
             Dictionary<string,List<string>> compressedFilesData = await CompressFiles(uploadForm, folderPath, gameName, isGameData);
             System.GC.Collect();
             uploadForm.uploadLabel.Text = (string)lang[isGameData ? "uploading_data" : "uploading_saves"];
@@ -219,7 +225,7 @@ namespace GameLinker.Helpers
             await PerformBulkUpload(uploadForm, destinationPath, compressedFilesData.ElementAt(0).Value, isGameData);
             int fileSize = (int)new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "/Temp/" + gameName + (isGameData ? "_Data.tar.gz" : "_Saves.tar.gz")).Length;
             CleanTempFiles(compressedFilesData.ElementAt(0).Key, compressedFilesData.ElementAt(0).Value);
-            return fileSize;
+            return new int[2]{ fileSize, compressedFilesData.ElementAt(0).Value.Count };
         }
 
         private async Task PerformBulkUpload(UploadProgressForm uploadForm, string destinationPath ,List<string> compressedFiles, bool isGameData)

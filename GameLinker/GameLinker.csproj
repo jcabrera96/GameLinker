@@ -28,9 +28,15 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GameLinker.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
@@ -131,7 +137,9 @@
     <EmbeddedResource Include="Configs\AppKey.json" />
     <EmbeddedResource Include="DynamicLang\Library.json" />
     <EmbeddedResource Include="DynamicLang\OnedriveHelper.json" />
-    <None Include="DynamicLang\LibraryHelper.json" />
+    <EmbeddedResource Include="DynamicLang\LibraryHelper.json" />
+    <EmbeddedResource Include="DynamicLang\CompressionHelper.json" />
+    <EmbeddedResource Include="DynamicLang\NewGameForm.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

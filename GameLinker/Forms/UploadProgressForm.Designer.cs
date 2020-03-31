@@ -79,7 +79,6 @@
             this.Name = "UploadProgressForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.UploadProgressForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

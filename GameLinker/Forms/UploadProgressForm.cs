@@ -12,14 +12,17 @@ namespace GameLinker.Forms
 {
     public partial class UploadProgressForm : Form
     {
-        public UploadProgressForm()
+        Library.CallBack callback;
+        public UploadProgressForm(Library.CallBack callback = null)
         {
+            this.callback = callback;
             InitializeComponent();
         }
 
         private void acceptButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            callback?.Invoke();
+            Close();
         }
 
         private void UploadProgressForm_Load(object sender, EventArgs e)

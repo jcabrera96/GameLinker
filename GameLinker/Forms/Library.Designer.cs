@@ -31,14 +31,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Library));
             this.sidebar = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.sessionToogleButton = new System.Windows.Forms.PictureBox();
             this.SessionToogleLabel = new System.Windows.Forms.Label();
             this.libraryPanel = new System.Windows.Forms.ListView();
             this.menuButton = new System.Windows.Forms.PictureBox();
-            this.sessionToogleButton = new System.Windows.Forms.PictureBox();
+            this.savesFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.dataFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.sidebar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.menuButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sessionToogleButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.menuButton)).BeginInit();
             this.SuspendLayout();
             // 
             // sidebar
@@ -54,6 +56,13 @@
             this.tableLayoutPanel1.Controls.Add(this.sessionToogleButton, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.SessionToogleLabel, 1, 9);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // sessionToogleButton
+            // 
+            resources.ApplyResources(this.sessionToogleButton, "sessionToogleButton");
+            this.sessionToogleButton.Image = global::GameLinker.Properties.Resources.logout;
+            this.sessionToogleButton.Name = "sessionToogleButton";
+            this.sessionToogleButton.TabStop = false;
             // 
             // SessionToogleLabel
             // 
@@ -77,12 +86,15 @@
             this.menuButton.TabStop = false;
             this.menuButton.Click += new System.EventHandler(this.MenuButton_Click);
             // 
-            // sessionToogleButton
+            // savesFolderBrowserDialog
             // 
-            resources.ApplyResources(this.sessionToogleButton, "sessionToogleButton");
-            this.sessionToogleButton.Image = global::GameLinker.Properties.Resources.logout;
-            this.sessionToogleButton.Name = "sessionToogleButton";
-            this.sessionToogleButton.TabStop = false;
+            resources.ApplyResources(this.savesFolderBrowserDialog, "savesFolderBrowserDialog");
+            this.savesFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
+            // dataFolderBrowserDialog
+            // 
+            resources.ApplyResources(this.dataFolderBrowserDialog, "dataFolderBrowserDialog");
+            this.dataFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
             // Library
             // 
@@ -91,6 +103,7 @@
             this.Controls.Add(this.libraryPanel);
             this.Controls.Add(this.menuButton);
             this.Controls.Add(this.sidebar);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Library";
             this.ShowIcon = false;
@@ -98,8 +111,8 @@
             this.sidebar.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.menuButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sessionToogleButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.menuButton)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -112,5 +125,7 @@
         private System.Windows.Forms.PictureBox sessionToogleButton;
         private System.Windows.Forms.Label SessionToogleLabel;
         private System.Windows.Forms.ListView libraryPanel;
+        private System.Windows.Forms.FolderBrowserDialog savesFolderBrowserDialog;
+        private System.Windows.Forms.FolderBrowserDialog dataFolderBrowserDialog;
     }
 }

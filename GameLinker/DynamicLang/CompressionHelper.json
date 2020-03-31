@@ -1,0 +1,16 @@
+{
+  "es": {
+    "downloading_data_fragments": "Descargando fragmentos de los archivos del juego",
+    "downloading_saves_fragments": "Descargando fragmentos de las partidas del juego",
+    "restore_successful": "Restauración de datos finalizada.",
+    "decompressing_data": "Descomprimiendo archivos del juego",
+    "decompressing_saves": "Descomprimiendo partidas del juego"
+  },
+  "en": {
+    "downloading_data_fragments": "Downloading game files' fragments",
+    "downloading_saves_fragments": "Downloading game savegames' fragments",
+    "restore_successful": "Data restoring finished.",
+    "decompressing_data": "Decompressing game files",
+    "decompressing_saves": "Decompressing savegames"
+  }
+}

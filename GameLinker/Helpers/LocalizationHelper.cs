@@ -13,7 +13,7 @@ namespace GameLinker.Helpers
     {
         private static LocalizationHelper _instance;
 
-        public JObject libraryLocalization, newGameFormLocalization, onedriveHelperLocalization, libraryHelperLocalization;
+        public JObject libraryLocalization, newGameFormLocalization, onedriveHelperLocalization, libraryHelperLocalization, compressionHelperLocalization;
 
         public static LocalizationHelper Instance
         {
@@ -27,7 +27,7 @@ namespace GameLinker.Helpers
         private LocalizationHelper()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            String[] resourcesName = { "Library.json", "OnedriveHelper.json", "LibraryHelper.json" };
+            String[] resourcesName = { "Library.json", "OnedriveHelper.json", "LibraryHelper.json", "NewGameForm.json", "CompressionHelper.json" };
 
             foreach (var resource in resourcesName)
             {
@@ -46,11 +46,17 @@ namespace GameLinker.Helpers
                 case "Library.json":
                     libraryLocalization = JObject.Parse(json);
                     break;
+                case "NewGameForm.json":
+                    newGameFormLocalization = JObject.Parse(json);
+                    break;
                 case "OnedriveHelper.json":
                     onedriveHelperLocalization = JObject.Parse(json);
                     break;
                 case "LibraryHelper.json":
                     libraryHelperLocalization = JObject.Parse(json);
+                    break;
+                case "CompressionHelper.json":
+                    compressionHelperLocalization = JObject.Parse(json);
                     break;
             }
         }

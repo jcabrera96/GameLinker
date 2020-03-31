@@ -124,6 +124,7 @@
             this.MinimizeBox = false;
             this.Name = "NewGameForm";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Load += new System.EventHandler(this.NewGameForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

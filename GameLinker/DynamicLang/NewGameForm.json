@@ -1,0 +1,12 @@
+{
+  "es": {
+    "updating_library": "Actualizando la biblioteca de juegos",
+    "uploading_updated_library": "Subiendo biblioteca de juegos actualizada",
+    "upload_successful": "Archivos subidos correctamente."
+  },
+  "en": {
+    "updating_library": "Updating games library",
+    "uploading_updated_library": "Uploading updated games library",
+    "upload_successful": "Game files uploaded successfully."
+  }
+}

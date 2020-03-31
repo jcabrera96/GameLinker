@@ -19,6 +19,8 @@ namespace GameLinker.Forms
         private bool lastItemHasDecreased = true;
         private JObject lang = (JObject)LocalizationHelper.Instance.libraryLocalization[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
+        public delegate void CallBack();
+
         public Library()
         {
             InitializeComponent();
@@ -64,9 +66,12 @@ namespace GameLinker.Forms
                 gamesList.Add(gamesListItem);
                 gamesIconsList.Images.Add(gamesIconsList.Images.Count.ToString(), Resources.generic_game);
             }
+            libraryPanel.Items.Clear();
+            libraryPanel.Columns.Clear();
             libraryPanel.Columns.Add("Games", -2, HorizontalAlignment.Center);
             libraryPanel.Items.AddRange(gamesList.ToArray());
             libraryPanel.LargeImageList = gamesIconsList;
+            libraryPanel.Refresh();
         }
 
         #endregion
@@ -155,8 +160,44 @@ namespace GameLinker.Forms
                             (string)lang["add_game_disabled"], "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    NewGameForm addGameForm = new NewGameForm();
+                    NewGameForm addGameForm = new NewGameForm(GenerateGamesList);
                     addGameForm.ShowDialog(this);
+                    break;
+                default:
+                    if (!await OnedriveHelper.Instance.IsAuthenticated())
+                    {
+                        MessageBox.Show(
+                            (string)lang["restore_disabled"], "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    Game selectedGame = LibraryHelper.Library.GetGames()[(int)lastItemHovered.Tag];
+                    string message = (string)lang["restore_game"] + Environment.NewLine + Environment.NewLine + (string)lang["data_path"] +
+                        Environment.NewLine + (selectedGame.DataPath == "" ? (string)lang["none"] : selectedGame.DataPath) + Environment.NewLine +
+                        Environment.NewLine + (string)lang["saves_path"] + Environment.NewLine + (selectedGame.SavePath == "" ? (string)lang["none"] : selectedGame.SavePath);
+                    DialogResult answer = MessageBox.Show(message, (string)lang["warning"], MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                    if (answer == DialogResult.Yes)
+                    {
+                        UploadProgressForm uploadForm = new UploadProgressForm();
+                        uploadForm.Owner = this;
+                        await CompressionHelper.JoinAndDecompress(selectedGame, uploadForm, selectedGame.DataPath, selectedGame.SavePath);
+                    }
+                    else if(answer == DialogResult.No)
+                    {
+                        UploadProgressForm uploadForm = new UploadProgressForm();
+                        uploadForm.Owner = this;
+                        string dataPath = "", savesPath = "";
+                        if(selectedGame.DataPath != "")
+                        {
+                            DialogResult dataResult = dataFolderBrowserDialog.ShowDialog();
+                            if (dataResult == DialogResult.OK) dataPath = dataFolderBrowserDialog.SelectedPath;
+                        }
+                        if (selectedGame.SavePath != "")
+                        {
+                            DialogResult savesResult = savesFolderBrowserDialog.ShowDialog();
+                            if (savesResult == DialogResult.OK) savesPath = savesFolderBrowserDialog.SelectedPath;
+                        }
+                        await CompressionHelper.JoinAndDecompress(selectedGame, uploadForm, dataPath, savesPath);
+                    }
                     break;
             }
         }
@@ -166,6 +207,8 @@ namespace GameLinker.Forms
             ListViewItem listviewTest = libraryPanel.HitTest(e.X, e.Y).Item as ListViewItem;
             if (listviewTest != null)
             {
+                libraryPanel.BeginUpdate();
+                Cursor.Current = Cursors.Hand;
                 if(lastItemHovered == null || lastItemHovered != listviewTest)
                 {
                     lastItemHovered = listviewTest;
@@ -180,9 +223,12 @@ namespace GameLinker.Forms
                         gamesIconsList.Images.Add(lastItemHovered.ImageKey, Resources.generic_game_selected);
                     }
                 }
+                libraryPanel.EndUpdate();
             }
             else if(listviewTest == null && lastItemHasDecreased == false)
             {
+                libraryPanel.BeginUpdate();
+                Cursor.Current = Cursors.Default;
                 lastItemHasDecreased = true;
                 gamesIconsList.Images.RemoveByKey(lastItemHovered.ImageKey);
                 if (lastItemHovered.ImageKey == "0")
@@ -194,6 +240,7 @@ namespace GameLinker.Forms
                     gamesIconsList.Images.Add(lastItemHovered.ImageKey, Resources.generic_game);
                 }
                 lastItemHovered = null;
+                libraryPanel.EndUpdate();
             }
         }
     }

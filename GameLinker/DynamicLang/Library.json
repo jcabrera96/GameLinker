@@ -3,16 +3,26 @@
     "log_in": "Iniciar sesión",
     "log_out": "Cerrar sesión",
     "add_game": "Añadir juego",
-    "add_game_disabled": "No puedes añadir un juego sin haber iniciado sesión",
+    "add_game_disabled": "Necesitas iniciar sesión para añadir juegos.",
+    "restore_disabled": "Necesitas iniciar sesión para restaurar juegos.",
     "log_out_confirm": "¿Estás seguro de querer cerrar la sesión de OneDrive?",
-    "warning": "Atención"
+    "warning": "Atención",
+    "restore_game": "¿Desea restaurar los datos del juego en las rutas que tiene asociadas?",
+    "data_path": "Ruta archivos: ",
+    "saves_path": "Ruta partidas guardadas: ",
+    "none": "- Ninguna -"
   },
   "en": {
     "log_in": "Log in",
     "log_out": "Log out",
     "add_game": "Add game",
-    "add_game_disabled": "You can't add a game to the library while not logged in",
+    "add_game_disabled": "You must be logged in to add games.",
+    "restore_disabled": "You must be logged in to restore games.",
     "log_out_confirm": "Are you sure you want to logout from OneDrive?",
-    "warning": "Warning"
+    "warning": "Warning",
+    "restore_game": "Do you want to restore game's data at its associated paths?",
+    "data_path": "Data files path: ",
+    "saves_path": "Savegames path: ",
+    "none": "- None -"
   }
 }
