@@ -37,6 +37,8 @@
             this.menuButton = new System.Windows.Forms.PictureBox();
             this.savesFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.dataFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.totalSpaceLabel = new System.Windows.Forms.Label();
+            this.freeSpaceLabel = new System.Windows.Forms.Label();
             this.sidebar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sessionToogleButton)).BeginInit();
@@ -80,8 +82,8 @@
             // 
             // menuButton
             // 
-            resources.ApplyResources(this.menuButton, "menuButton");
             this.menuButton.Image = global::GameLinker.Properties.Resources.sidebar_inactive;
+            resources.ApplyResources(this.menuButton, "menuButton");
             this.menuButton.Name = "menuButton";
             this.menuButton.TabStop = false;
             this.menuButton.Click += new System.EventHandler(this.MenuButton_Click);
@@ -96,10 +98,25 @@
             resources.ApplyResources(this.dataFolderBrowserDialog, "dataFolderBrowserDialog");
             this.dataFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
+            // totalSpaceLabel
+            // 
+            resources.ApplyResources(this.totalSpaceLabel, "totalSpaceLabel");
+            this.totalSpaceLabel.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.totalSpaceLabel.Name = "totalSpaceLabel";
+            this.totalSpaceLabel.Click += new System.EventHandler(this.totalSpaceLabel_Click);
+            // 
+            // freeSpaceLabel
+            // 
+            resources.ApplyResources(this.freeSpaceLabel, "freeSpaceLabel");
+            this.freeSpaceLabel.ForeColor = System.Drawing.Color.ForestGreen;
+            this.freeSpaceLabel.Name = "freeSpaceLabel";
+            // 
             // Library
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.freeSpaceLabel);
+            this.Controls.Add(this.totalSpaceLabel);
             this.Controls.Add(this.libraryPanel);
             this.Controls.Add(this.menuButton);
             this.Controls.Add(this.sidebar);
@@ -108,12 +125,14 @@
             this.Name = "Library";
             this.ShowIcon = false;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Library_Load);
             this.sidebar.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sessionToogleButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.menuButton)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -127,5 +146,7 @@
         private System.Windows.Forms.ListView libraryPanel;
         private System.Windows.Forms.FolderBrowserDialog savesFolderBrowserDialog;
         private System.Windows.Forms.FolderBrowserDialog dataFolderBrowserDialog;
+        private System.Windows.Forms.Label totalSpaceLabel;
+        private System.Windows.Forms.Label freeSpaceLabel;
     }
 }

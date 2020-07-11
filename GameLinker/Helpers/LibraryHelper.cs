@@ -60,7 +60,7 @@ namespace GameLinker.Helpers
                     else
                     {
                         Library = new GamesLibrary();
-                        MessageBox.Show((string)lang["library_being_restored"], (string)lang["warning"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show((string)lang["library_being_created"], (string)lang["warning"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         SaveLibrary();
                     }
                 }

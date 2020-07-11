@@ -98,6 +98,16 @@ namespace GameLinker.Helpers
             return authenticator.IsAuthenticated;
         }
 
+        public async Task<long[]> GetSpace()
+        {
+            if (authenticator == null) InitAuthenticator();
+            Drive drive = await client.Drive.Request().GetAsync();
+            long[] space = new long[2];
+            space[0] = drive.Quota.Total.Value;
+            space[1] = drive.Quota.Remaining.Value;
+            return space;
+        }
+
         public async Task<Item> GetFolder(string folderPath)
         {
             if (authenticator == null) InitAuthenticator();

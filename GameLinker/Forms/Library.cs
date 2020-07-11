@@ -13,6 +13,7 @@ namespace GameLinker.Forms
     public partial class Library : Form
     {
         private bool ShowingSidebar = false;
+        private string originalFreeSpaceText, originalTotalSpaceText;
         private ImageList gamesIconsList;
         private List<ListViewItem> gamesList;
         private ListViewItem lastItemHovered;
@@ -32,6 +33,18 @@ namespace GameLinker.Forms
         private async void InitializeLibrary()
         {
             await LibraryHelper.LoadLibrary();
+            originalFreeSpaceText = freeSpaceLabel.Text;
+            originalTotalSpaceText = totalSpaceLabel.Text;
+            if (await OnedriveHelper.Instance.IsAuthenticated()) {
+                long[] size = await OnedriveHelper.Instance.GetSpace();
+                freeSpaceLabel.Text = originalFreeSpaceText + " " + Math.Round((size[1] / Math.Pow(1024, 3)),1) + " GB";
+                totalSpaceLabel.Text = originalTotalSpaceText + " " + Math.Round((size[0] / Math.Pow(1024, 3)), 1) + " GB";
+            }
+            else
+            {
+                freeSpaceLabel.Text = originalFreeSpaceText + " ? GB";
+                totalSpaceLabel.Text = originalTotalSpaceText + " ? GB";
+            }
             GenerateGamesList();
             libraryPanel.Click += ListItemClicked;
             libraryPanel.MouseMove += ListItemHover;
@@ -127,10 +140,15 @@ namespace GameLinker.Forms
             {
                 DialogResult answer = MessageBox.Show((string)lang["log_out_confirm"], (string)lang["warning"], MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (answer == DialogResult.Yes) await OnedriveHelper.Instance.EndSession();
+                freeSpaceLabel.Text = originalFreeSpaceText + " ? GB";
+                totalSpaceLabel.Text = originalTotalSpaceText + " ? GB";
             }
             else
             {
                 await OnedriveHelper.Instance.Authenticate();
+                long[] size = await OnedriveHelper.Instance.GetSpace();
+                freeSpaceLabel.Text = originalFreeSpaceText + " " + Math.Round((size[1] / Math.Pow(1024, 3)), 1) + " GB";
+                totalSpaceLabel.Text = originalTotalSpaceText + " " + Math.Round((size[0] / Math.Pow(1024, 3)), 1) + " GB";
             }
             gamesIconsList.Images.RemoveByKey("0");
             gamesIconsList.Images.Add("0", await OnedriveHelper.Instance.IsAuthenticated() ? Resources.add_game : Resources.add_game_disabled);
@@ -242,6 +260,16 @@ namespace GameLinker.Forms
                 lastItemHovered = null;
                 libraryPanel.EndUpdate();
             }
+        }
+
+        private void totalSpaceLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Library_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
