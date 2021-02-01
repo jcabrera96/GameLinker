@@ -82,7 +82,7 @@
             // 
             // menuButton
             // 
-            this.menuButton.Image = global::GameLinker.Properties.Resources.sidebar_inactive;
+            this.menuButton.Image = global::GameLinker.Properties.Resources.sidebar_active;
             resources.ApplyResources(this.menuButton, "menuButton");
             this.menuButton.Name = "menuButton";
             this.menuButton.TabStop = false;

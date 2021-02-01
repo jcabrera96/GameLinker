@@ -10,7 +10,8 @@
     "restore_game": "¿Desea restaurar los datos del juego en las rutas que tiene asociadas?",
     "data_path": "Ruta archivos: ",
     "saves_path": "Ruta partidas guardadas: ",
-    "none": "- Ninguna -"
+    "none": "- Ninguna -",
+    "log_in_prompt":  "Se ha detectado que no ha iniciado sesión.\n\r\n\rEl programa funcionará de forma limitada mientras no inicie sesión, permitiendo únicamente restaurar los juegos guardados previamente.\n\r\n\r¿Desea iniciar sesión ahora?"
   },
   "en": {
     "log_in": "Log in",
@@ -23,6 +24,7 @@
     "restore_game": "Do you want to restore game's data at its associated paths?",
     "data_path": "Data files path: ",
     "saves_path": "Savegames path: ",
-    "none": "- None -"
+    "none": "- None -",
+    "log_in_prompt": "No active sesion detected.\n\rSoftware will run with limited capabilities while running offline, only being able to restore previously saved games.\n\rDo you want to log in?"
   }
 }

@@ -12,7 +12,8 @@ namespace GameLinker.Forms
 {
     public partial class Library : Form
     {
-        private bool ShowingSidebar = false;
+        private bool ShowingSidebar = true;
+        private bool SidebarMoving = false;
         private string originalFreeSpaceText, originalTotalSpaceText;
         private ImageList gamesIconsList;
         private List<ListViewItem> gamesList;
@@ -35,16 +36,6 @@ namespace GameLinker.Forms
             await LibraryHelper.LoadLibrary();
             originalFreeSpaceText = freeSpaceLabel.Text;
             originalTotalSpaceText = totalSpaceLabel.Text;
-            if (await OnedriveHelper.Instance.IsAuthenticated()) {
-                long[] size = await OnedriveHelper.Instance.GetSpace();
-                freeSpaceLabel.Text = originalFreeSpaceText + " " + Math.Round((size[1] / Math.Pow(1024, 3)),1) + " GB";
-                totalSpaceLabel.Text = originalTotalSpaceText + " " + Math.Round((size[0] / Math.Pow(1024, 3)), 1) + " GB";
-            }
-            else
-            {
-                freeSpaceLabel.Text = originalFreeSpaceText + " ? GB";
-                totalSpaceLabel.Text = originalTotalSpaceText + " ? GB";
-            }
             GenerateGamesList();
             libraryPanel.Click += ListItemClicked;
             libraryPanel.MouseMove += ListItemHover;
@@ -54,6 +45,20 @@ namespace GameLinker.Forms
             sessionToogleButton.MouseEnter += SessionToogleButtonEnter;
             sessionToogleButton.MouseLeave += SessionToogleButtonExit;
             sessionToogleButton.Click += SessionToogle;
+
+            if (await OnedriveHelper.Instance.IsAuthenticated())
+            {
+                long[] size = await OnedriveHelper.Instance.GetSpace();
+                freeSpaceLabel.Text = originalFreeSpaceText + " " + Math.Round((size[1] / Math.Pow(1024, 3)), 1) + " GB";
+                totalSpaceLabel.Text = originalTotalSpaceText + " " + Math.Round((size[0] / Math.Pow(1024, 3)), 1) + " GB";
+            }
+            else
+            {
+                freeSpaceLabel.Text = originalFreeSpaceText + " ? GB";
+                totalSpaceLabel.Text = originalTotalSpaceText + " ? GB";
+                DialogResult answer = MessageBox.Show((string)lang["log_in_prompt"], (string)lang["warning"], MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if(answer == DialogResult.Yes)SessionToogle(null, null);
+            }
         }
 
         private async void GenerateGamesList()
@@ -100,6 +105,7 @@ namespace GameLinker.Forms
         {
             Transition clickAnimation = new Transition(new TransitionType_Bounce(200));
             clickAnimation.add(menuButton, "Top", (int)Math.Round(menuButton.Top * 1.5));
+            SidebarMoving = true;
             if (ShowingSidebar)
             {
                 ShowingSidebar = false;
@@ -108,6 +114,7 @@ namespace GameLinker.Forms
                 mainAnimation.add(libraryPanel, "Width", libraryPanel.Width + sidebar.Width);
                 mainAnimation.add(libraryPanel, "Left", libraryPanel.Left - sidebar.Width);
                 mainAnimation.add(menuButton, "Left", menuButton.Left - sidebar.Width);
+                mainAnimation.TransitionCompletedEvent += new EventHandler<Transition.Args>((Object o, Transition.Args args) => SidebarMoving = false);
                 Transition.runChain(clickAnimation, mainAnimation);
                 menuButton.Image = Resources.sidebar_inactive;
             }
@@ -119,9 +126,11 @@ namespace GameLinker.Forms
                 mainAnimation.add(libraryPanel, "Width", libraryPanel.Width - sidebar.Width);
                 mainAnimation.add(libraryPanel, "Left", libraryPanel.Left + sidebar.Width);
                 mainAnimation.add(menuButton, "Left", menuButton.Left + sidebar.Width);
+                mainAnimation.TransitionCompletedEvent += new EventHandler<Transition.Args>((Object o, Transition.Args args) => SidebarMoving = false);
                 Transition.runChain(clickAnimation, mainAnimation);
                 menuButton.Image = Resources.sidebar_active;
             }
+            
         }
 
         private async void SessionToogleButtonEnter(object sender, EventArgs e)
@@ -222,10 +231,10 @@ namespace GameLinker.Forms
 
         private async void ListItemHover(object sender, MouseEventArgs e)
         {
+            if (SidebarMoving) return;
             ListViewItem listviewTest = libraryPanel.HitTest(e.X, e.Y).Item as ListViewItem;
             if (listviewTest != null)
             {
-                libraryPanel.BeginUpdate();
                 Cursor.Current = Cursors.Hand;
                 if(lastItemHovered == null || lastItemHovered != listviewTest)
                 {
@@ -241,11 +250,9 @@ namespace GameLinker.Forms
                         gamesIconsList.Images.Add(lastItemHovered.ImageKey, Resources.generic_game_selected);
                     }
                 }
-                libraryPanel.EndUpdate();
             }
             else if(listviewTest == null && lastItemHasDecreased == false)
             {
-                libraryPanel.BeginUpdate();
                 Cursor.Current = Cursors.Default;
                 lastItemHasDecreased = true;
                 gamesIconsList.Images.RemoveByKey(lastItemHovered.ImageKey);
@@ -258,7 +265,6 @@ namespace GameLinker.Forms
                     gamesIconsList.Images.Add(lastItemHovered.ImageKey, Resources.generic_game);
                 }
                 lastItemHovered = null;
-                libraryPanel.EndUpdate();
             }
         }
 
